@@ -1,17 +1,17 @@
 // Portfolio data - Edit this file to customize your content
 export const portfolioData = {
   // Personal Information
-  name: "Your Name",
-  title: "Your Title",
-  location: "Your Location",
-  email: "your.email@example.com",
-  phone: "+1 (555) 000-0000",
-  
+  name: "Andrew SZE-TO",
+  title: "Software Developer",
+  location: "Hong Kong",
+  email: "klszeto020@gmail.com",
+  phone: "+852 6628 8537",
+
   // Hero Section
   hero: {
     greeting: "Hi, I'm",
-    tagline: "Your tagline here",
-    description: "Your description here - tell visitors about yourself, your expertise, and what makes you unique as a developer.",
+    tagline: "Crafting what people dreamed of",
+    description: "A passionate software developer from Hong Kong specializing in web development, API design, and game logic. I transform ambitious ideas into reality through clean, scalable code.",
     resumeUrl: "/resume.pdf",
   },
 
@@ -97,75 +97,90 @@ export const portfolioData = {
   experience: [
     {
       id: "1",
-      company: "Company Name",
-      position: "Your Position",
-      duration: "Start Date - End Date",
-      location: "Location",
-      description: "Brief description of your role and main responsibilities. Focus on what you accomplished and the impact you made.",
+      company: "She Communications Limited",
+      position: "Full-stack Developer",
+      duration: "Sep 2024 - Present",
+      location: "Hong Kong",
+      description: "Leading the complete architectural overhaul of a beauty product review platform, transforming legacy systems into a modern, scalable solution using Next.js and Laravel to deliver superior user experience and performance.",
       achievements: [
-        "Key achievement or accomplishment #1",
-        "Key achievement or accomplishment #2",
-        "Key achievement or accomplishment #3",
-        "Key achievement or accomplishment #4"
+        "Redesigned and rebuilt entire platform architecture",
+        "Significantly improved user experience and interface",
+        "Enhanced platform functionalities and features",
+        "Achieved better overall system performance"
       ],
-      technologies: ["Technology 1", "Technology 2", "Technology 3"],
+      technologies: ["Next.js", "Laravel", "PHP", "React", "TypeScript"],
     },
     {
       id: "2",
-      company: "Previous Company Name",
-      position: "Previous Position",
-      duration: "Start Date - End Date",
-      location: "Location",
-      description: "Brief description of your previous role and what you contributed to the organization.",
+      company: "The Chinese University of Hong Kong",
+      position: "Game Developer",
+      duration: "Dec 2021 - Present",
+      location: "Hong Kong",
+      description: "Developed an award-winning educational game for the radiology field using Unity, incorporating advanced AI features in collaboration with research teams.",
       achievements: [
-        "Key achievement or accomplishment #1",
-        "Key achievement or accomplishment #2",
-        "Key achievement or accomplishment #3",
-        "Key achievement or accomplishment #4"
+        "Created award-winning educational game for radiology field",
+        "Implemented Machine Learning model for abnormal nasogastric tube detection",
+        "Collaborated with Ph.D. student research team on AI integration",
+        "Delivered educational tool with real-world medical applications"
       ],
-      technologies: ["Technology 1", "Technology 2", "Technology 3"],
+      technologies: ["Unity", "C#", "Machine Learning", "AI Integration", "Game Development"],
     },
     {
       id: "3",
-      company: "Earlier Company Name",
-      position: "Earlier Position",
-      duration: "Start Date - End Date",
-      location: "Location",
-      description: "Brief description of your earlier role and the experience you gained.",
+      company: "DigiGear Technology Limited",
+      position: "Software Engineer",
+      duration: "Jun 2023 - Aug 2023",
+      location: "Hong Kong",
+      description: "Developed a full-stack ticket selling platform focused on improving user experience and code maintainability.",
       achievements: [
-        "Key achievement or accomplishment #1",
-        "Key achievement or accomplishment #2",
-        "Key achievement or accomplishment #3",
-        "Key achievement or accomplishment #4"
+        "Built complete ticket selling platform from scratch",
+        "Improved user experience through intuitive design",
+        "Enhanced code maintainability and structure",
+        "Delivered scalable solution for ticket sales"
       ],
-      technologies: ["Technology 1", "Technology 2", "Technology 3"],
+      technologies: ["Full-stack Development", "TypeScript", "Database Design", "API Development"],
+    },
+    {
+      id: "4",
+      company: "MedMind Technology Limited",
+      position: "Game Developer Intern",
+      duration: "Jun 2020 - Aug 2020",
+      location: "Hong Kong",
+      description: "Developed Mahjong online multiplayer game mode using Photon API for Unity, which became the product's most significant selling point during the pandemic.",
+      achievements: [
+        "Developed complete multiplayer game mode in just 3 weeks",
+        "Implemented Photon API for seamless online gameplay",
+        "Created the product's most significant selling point during pandemic",
+        "Delivered high-quality gaming experience under tight deadline"
+      ],
+      technologies: ["Unity", "C#", "Photon API", "Multiplayer Development", "Game Networking"],
     },
   ],
 
   // Social Links
   social: [
-    { name: "GitHub", url: "https://github.com/yourusername", icon: "github" },
-    { name: "LinkedIn", url: "https://linkedin.com/in/yourusername", icon: "linkedin" },
-    { name: "Twitter", url: "https://twitter.com/yourusername", icon: "twitter" },
-    { name: "Email", url: "mailto:your.email@example.com", icon: "email" },
+    { name: "GitHub", url: "https://github.com/zkwokleung", icon: "github" },
+    { name: "LinkedIn", url: "https://linkedin.com/in/kwok-leung-sze-to-aa735a1a7", icon: "linkedin" },
+    { name: "Twitter", url: "https://twitter.com/zkwokleung", icon: "twitter" },
+    { name: "Email", url: "mailto:klszeto020@gmail.com", icon: "email" },
   ],
 
   // About Section
   about: {
     paragraphs: [
-      "Write your first paragraph here. This should be a compelling introduction that captures who you are as a developer and what drives your passion for technology.",
-      "Write your second paragraph here. Focus on your technical expertise, preferred technologies, and development philosophy or approach to problem-solving.",
-      "Write your third paragraph here. Share what you do outside of coding, your interests, and what you're looking for in your next opportunity or collaboration."
+      "My journey into programming began with a simple motivation: I wanted to craft the products I dreamed of. What started as a personal quest has evolved into a passion for creating software that makes a meaningful impact.",
+      "I specialize in web development, API design, and game logic with a strong focus on software quality and architecture. My approach centers on design patterns, scalability, and maintainability—ensuring every line of code contributes to robust, future-proof solutions.",
+      "Beyond coding, I'm actively learning 4+ languages, which has taught me the value of clear communication and diverse perspectives. I'm seeking opportunities to work on innovative projects where quality matters as much as creativity."
     ],
     skills: [
-      "Your skill area #1",
-      "Your skill area #2", 
-      "Your skill area #3",
-      "Your skill area #4",
-      "Your skill area #5",
-      "Your skill area #6",
-      "Your skill area #7",
-      "Your skill area #8"
+      "Web application development",
+      "API design & implementation",
+      "Game logic programming",
+      "Software architecture & design patterns",
+      "Code quality & maintainability",
+      "Scalable system design",
+      "Cross-cultural communication",
+      "Continuous learning & adaptation"
     ]
   }
 };
