@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Andrew SZE-TO - Portfolio
 
-## Getting Started
+A modern, responsive developer portfolio built with Next.js 15, TypeScript, and Tailwind CSS 4. This portfolio showcases my journey as a software developer, featuring my work in web development, game development, and AI integration.
 
-First, run the development server:
+## 🚀 Live Demo
 
+Visit my portfolio: [WIP]
+
+## 🛠️ Built With
+
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS 4** - Utility-first CSS framework
+
+## ✨ Features
+
+- **Modern Design** - Clean, professional layout with dark/light mode support
+- **Responsive** - Mobile-first design that works on all devices
+- **Interactive** - Smooth animations and hover effects
+- **SEO Optimized** - Proper meta tags and structured data
+- **Accessible** - WCAG compliant with keyboard navigation support
+- **Fast** - Optimized performance with static generation
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx       # Root layout with font configuration
+│   ├── page.tsx         # Home page component
+│   └── globals.css      # Global styles
+├── components/
+│   ├── ui/              # Reusable UI components
+│   ├── layout/          # Layout components (Header, Footer)
+│   └── sections/        # Page sections (Hero, About, Projects, etc.)
+├── data/
+│   └── portfolio.ts     # Portfolio content data
+└── lib/
+    └── utils.ts         # Utility functions
+```
+
+## 🎯 Sections
+
+- **Hero** - Introduction with animated background
+- **About** - Personal story and approach to development
+- **Skills** - Interactive tech stack with filtering
+- **Projects** - Featured work with live demos
+- **Experience** - Professional timeline
+- **Contact** - Contact form and social links
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm, yarn, or pnpm
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/zkwokleung/portfolio.git
+cd portfolio
+```
+
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+3. Run the development server
 ```bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Customization
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Content
 
-## Learn More
+Edit `src/data/portfolio.ts` to customize:
+- Personal information
+- Work experience
+- Projects
+- Skills
+- Social links
 
-To learn more about Next.js, take a look at the following resources:
+### Styling
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Global styles: `src/app/globals.css`
+- Component styles: Tailwind classes in components
+- Theme: CSS custom properties for colors
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Adding Your Resume
 
-## Deploy on Vercel
+Place your resume as `public/resume.pdf` (or update the path in `portfolio.ts`)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Available Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+## 📦 Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to [Vercel](https://vercel.com)
+3. Deploy automatically on every push
+
+## 🤝 About Me
+
+I'm Andrew SZE-TO, a passionate software developer from Hong Kong specializing in:
+- **Web Development** (Next.js, Laravel, React)
+- **Game Development** (Unity, C#, Multiplayer)
+- **AI Integration** (Machine Learning, Educational Tools)
+
+Currently working as a Full-stack Developer at She Communications Limited, where I'm leading the architectural overhaul of a beauty product review platform.
+
+## 📫 Contact
+
+- **Email**: klszeto020@gmail.com
+- **GitHub**: [@zkwokleung](https://github.com/zkwokleung)
+- **LinkedIn**: [kwok-leung-sze-to](https://linkedin.com/in/kwok-leung-sze-to-aa735a1a7)
+- **Twitter**: [@zkwokleung](https://twitter.com/zkwokleung)
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
