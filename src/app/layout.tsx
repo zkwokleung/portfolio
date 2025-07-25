@@ -13,22 +13,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Your Name - Portfolio",
-  description: "Your professional description here. This will appear in search results and social media previews.",
-  keywords: ["developer", "portfolio", "your", "keywords", "here"],
-  authors: [{ name: "Your Name" }],
-  creator: "Your Name",
+  title: "Andrew SZE-TO - Full-Stack Developer & Game Developer",
+  description:
+    "Passionate software developer from Hong Kong specializing in web development, API design, game logic, and AI/ML integration. Experienced in Next.js, Laravel, Unity, and computer vision solutions.",
+  keywords: [
+    "Andrew SZE-TO",
+    "Full-stack Developer",
+    "Game Developer",
+    "Hong Kong Developer",
+    "Next.js",
+    "Laravel",
+    "Unity",
+    "Computer Vision",
+    "AI/ML",
+    "React",
+    "TypeScript",
+    "Software Engineer",
+  ],
+  authors: [{ name: "Andrew SZE-TO" }],
+  creator: "Andrew SZE-TO",
   openGraph: {
-    title: "Your Name - Portfolio",
-    description: "Your professional description here. This will appear in search results and social media previews.",
+    title: "Andrew SZE-TO - Full-Stack Developer & Game Developer",
+    description:
+      "Passionate software developer from Hong Kong specializing in web development, API design, game logic, and AI/ML integration. Crafting what people dreamed of through clean, scalable code.",
     type: "website",
     locale: "en_US",
+    siteName: "Andrew SZE-TO Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Name - Portfolio",
-    description: "Your professional description here. This will appear in search results and social media previews.",
-    creator: "@yourusername",
+    title: "Andrew SZE-TO - Full-Stack Developer & Game Developer",
+    description:
+      "Passionate software developer from Hong Kong specializing in web development, API design, game logic, and AI/ML integration.",
+    creator: "@zkwokleung",
   },
   robots: {
     index: true,
@@ -40,6 +57,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  verification: {
+    google: "your-google-verification-code", // Replace with actual verification code when available
   },
 };
 
