@@ -129,14 +129,21 @@ interface ProjectCardProps {
     description: string;
     image: string;
     technologies: string[];
-    githubUrl: string;
-    liveUrl: string;
+    githubUrl?: string;
+    liveUrl?: string;
     featured: boolean;
   };
   index: number;
 }
 
 function ProjectCard({ project, index }: ProjectCardProps) {
+  const isValidUrl = (url?: string) => {
+    return url && url !== '#' && url.trim() !== '';
+  };
+
+  const hasValidLiveUrl = isValidUrl(project.liveUrl);
+  const hasValidGithubUrl = isValidUrl(project.githubUrl);
+
   return (
     <Card
       hover
@@ -165,26 +172,32 @@ function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           </div>
           
-          {/* Overlay with links */}
-          <div className="absolute inset-0 bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-            <Button
-              size="sm"
-              onClick={() => window.open(project.liveUrl, '_blank')}
-              className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
-            >
-              <ExternalLinkIcon className="w-4 h-4 mr-2" />
-              Live Demo
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => window.open(project.githubUrl, '_blank')}
-              className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75"
-            >
-              <GitHubIcon className="w-4 h-4 mr-2" />
-              Code
-            </Button>
-          </div>
+          {/* Overlay with links - only show if we have valid links */}
+          {(hasValidLiveUrl || hasValidGithubUrl) && (
+            <div className="absolute inset-0 bg-background/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+              {hasValidLiveUrl && (
+                <Button
+                  size="sm"
+                  onClick={() => window.open(project.liveUrl, '_blank')}
+                  className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                >
+                  <ExternalLinkIcon className="w-4 h-4 mr-2" />
+                  Live Demo
+                </Button>
+              )}
+              {hasValidGithubUrl && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.open(project.githubUrl, '_blank')}
+                  className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75"
+                >
+                  <GitHubIcon className="w-4 h-4 mr-2" />
+                  Code
+                </Button>
+              )}
+            </div>
+          )}
         </div>
 
         <CardTitle className="group-hover:text-foreground/80 transition-colors">
@@ -203,28 +216,40 @@ function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </CardContent>
 
-      <CardFooter>
-        <div className="flex space-x-2 w-full">
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => window.open(project.liveUrl, '_blank')}
-            className="flex-1"
-          >
-            <ExternalLinkIcon className="w-4 h-4 mr-2" />
-            Demo
-          </Button>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => window.open(project.githubUrl, '_blank')}
-            className="flex-1"
-          >
-            <GitHubIcon className="w-4 h-4 mr-2" />
-            Code
-          </Button>
-        </div>
-      </CardFooter>
+      {(hasValidLiveUrl || hasValidGithubUrl) && (
+        <CardFooter>
+          <div className="flex gap-2 w-full">
+            {hasValidLiveUrl && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => window.open(project.liveUrl, '_blank')}
+                className={cn(
+                  "flex items-center justify-center",
+                  hasValidGithubUrl ? "flex-1" : "w-full"
+                )}
+              >
+                <ExternalLinkIcon className="w-4 h-4 mr-2" />
+                Demo
+              </Button>
+            )}
+            {hasValidGithubUrl && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => window.open(project.githubUrl, '_blank')}
+                className={cn(
+                  "flex items-center justify-center",
+                  hasValidLiveUrl ? "flex-1" : "w-full"
+                )}
+              >
+                <GitHubIcon className="w-4 h-4 mr-2" />
+                Code
+              </Button>
+            )}
+          </div>
+        </CardFooter>
+      )}
     </Card>
   );
 }

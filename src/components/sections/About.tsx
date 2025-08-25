@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { portfolioData } from '@/data/portfolio';
-import Container from '@/components/ui/Container';
-import Badge from '@/components/ui/Badge';
-import { cn } from '@/lib/utils';
+import { useEffect, useState } from "react";
+import { portfolioData } from "@/data/portfolio";
+import Container from "@/components/ui/Container";
+import Badge from "@/components/ui/Badge";
+import { cn } from "@/lib/utils";
 
 export default function About() {
   const [isVisible, setIsVisible] = useState(false);
@@ -16,10 +16,10 @@ export default function About() {
           setIsVisible(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
-    const element = document.getElementById('about');
+    const element = document.getElementById("about");
     if (element) {
       observer.observe(element);
     }
@@ -34,13 +34,16 @@ export default function About() {
           {/* Section Header */}
           <div
             className={cn(
-              'text-center mb-12 transition-all duration-1000',
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              "text-center mb-12 transition-all duration-1000",
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8",
             )}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
             <p className="text-foreground/70 text-lg max-w-2xl mx-auto">
-              Get to know me better and discover what drives my passion for development
+              Get to know me better and discover what drives my passion for
+              development
             </p>
           </div>
 
@@ -48,8 +51,10 @@ export default function About() {
             {/* Content */}
             <div
               className={cn(
-                'transition-all duration-1000 delay-200',
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                "transition-all duration-1000 delay-200",
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8",
               )}
             >
               <div className="space-y-6">
@@ -63,20 +68,34 @@ export default function About() {
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-6 mt-8 p-6 bg-background rounded-lg border border-foreground/10">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground mb-1">5+</div>
-                  <div className="text-sm text-foreground/60">Years Experience</div>
+                  <div className="text-2xl font-bold text-foreground mb-1">
+                    5+
+                  </div>
+                  <div className="text-sm text-foreground/60">
+                    Years Experience
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground mb-1">{portfolioData.projects.length}</div>
-                  <div className="text-sm text-foreground/60">Projects Completed</div>
+                  <div className="text-2xl font-bold text-foreground mb-1">
+                    {portfolioData.projects.length}
+                  </div>
+                  <div className="text-sm text-foreground/60">
+                    Projects Completed
+                  </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground mb-1">20+</div>
+                  <div className="text-2xl font-bold text-foreground mb-1">
+                    20+
+                  </div>
                   <div className="text-sm text-foreground/60">Technologies</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-foreground mb-1">100K+</div>
-                  <div className="text-sm text-foreground/60">Users Impacted</div>
+                  <div className="text-2xl font-bold text-foreground mb-1">
+                    100K+
+                  </div>
+                  <div className="text-sm text-foreground/60">
+                    Users Impacted
+                  </div>
                 </div>
               </div>
             </div>
@@ -84,8 +103,10 @@ export default function About() {
             {/* Skills & Expertise */}
             <div
               className={cn(
-                'transition-all duration-1000 delay-400',
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                "transition-all duration-1000 delay-400",
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8",
               )}
             >
               <h3 className="text-xl font-semibold mb-6">What I Do</h3>
@@ -105,7 +126,7 @@ export default function About() {
                   {[
                     ...portfolioData.skills.frontend.slice(0, 3),
                     ...portfolioData.skills.backend.slice(0, 2),
-                    ...portfolioData.skills.tools.slice(0, 2)
+                    ...portfolioData.skills.specialization.slice(0, 2),
                   ].map((skill, index) => (
                     <Badge key={index} variant="skill" className="text-xs">
                       {skill.name}
@@ -116,9 +137,12 @@ export default function About() {
 
               {/* Current Focus */}
               <div className="mt-8 p-4 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20">
-                <h4 className="text-lg font-medium mb-2">Currently Exploring</h4>
+                <h4 className="text-lg font-medium mb-2">
+                  Currently Exploring
+                </h4>
                 <p className="text-foreground/70 text-sm">
-                  AI/ML integration in web applications, serverless architectures, and advanced React patterns.
+                  AI/ML integration in web applications, serverless
+                  architectures, and advanced React patterns.
                 </p>
               </div>
             </div>

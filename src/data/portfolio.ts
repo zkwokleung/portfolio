@@ -4,6 +4,7 @@ export const portfolioData = {
   name: "Andrew SZE-TO",
   title: "Software Developer",
   location: "Hong Kong",
+  availability: "Open to new opportunities",
   email: "klszeto020@gmail.com",
   phone: "+852 6628 8537",
 
@@ -32,10 +33,10 @@ export const portfolioData = {
     featured: [
       // Core Languages
       { name: "JavaScript", level: 95, category: "Languages", featured: true },
-      { name: "TypeScript", level: 90, category: "Languages", featured: true },
+      { name: "TypeScript", level: 95, category: "Languages", featured: true },
       { name: "Python", level: 80, category: "Languages", featured: true },
       { name: "PHP", level: 80, category: "Languages", featured: true },
-      { name: "C#", level: 85, category: "Languages", featured: true },
+      { name: "C#", level: 95, category: "Languages", featured: true },
 
       // Frontend
       { name: "React", level: 95, category: "Frontend", featured: true },
@@ -48,7 +49,7 @@ export const portfolioData = {
       { name: "Node.js", level: 85, category: "Backend", featured: true },
 
       // Specializations (Game Dev + AI)
-      { name: "Unity", level: 90, category: "Specialization", featured: true },
+      { name: "Unity", level: 95, category: "Specialization", featured: true },
       {
         name: "Computer Vision",
         level: 85,
@@ -70,26 +71,29 @@ export const portfolioData = {
     // Complete skills list
     languages: [
       { name: "JavaScript", level: 95, category: "Languages" },
-      { name: "TypeScript", level: 90, category: "Languages" },
+      { name: "TypeScript", level: 95, category: "Languages" },
       { name: "Python", level: 80, category: "Languages" },
       { name: "PHP", level: 80, category: "Languages" },
-      { name: "C#", level: 85, category: "Languages" },
+      { name: "C#", level: 95, category: "Languages" },
+      { name: "Kotlin", level: 85, category: "Languages" },
+      { name: "Dart", level: 90, category: "Languages" },
+      { name: "Java", level: 85, category: "Languages" },
       { name: "C++", level: 65, category: "Languages" },
     ],
     frontend: [
       { name: "React", level: 95, category: "Frontend" },
-      { name: "Next.js", level: 85, category: "Frontend" },
+      { name: "Next.js", level: 90, category: "Frontend" },
       { name: "Tailwind CSS", level: 90, category: "Frontend" },
       { name: "HTML/CSS", level: 90, category: "Frontend" },
-      { name: "Flutter", level: 75, category: "Frontend" },
+      { name: "Flutter", level: 90, category: "Frontend" },
     ],
     backend: [
       { name: "Laravel", level: 85, category: "Backend" },
       { name: "Node.js", level: 85, category: "Backend" },
       { name: "PostgreSQL", level: 75, category: "Backend" },
       { name: "MongoDB", level: 70, category: "Backend" },
-      { name: "MySQL", level: 70, category: "Backend" },
-      { name: "REST APIs", level: 80, category: "Backend" },
+      { name: "MySQL", level: 80, category: "Backend" },
+      { name: "Supabase", level: 85, category: "Backend" },
     ],
     specialization: [
       // Game Development
@@ -99,19 +103,19 @@ export const portfolioData = {
       // AI/ML
       { name: "Machine Learning", level: 80, category: "Specialization" },
       { name: "Computer Vision", level: 85, category: "Specialization" },
-      { name: "AI Integration", level: 80, category: "Specialization" },
-      { name: "TensorFlow", level: 65, category: "Specialization" },
     ],
     devops: [
       { name: "Git", level: 95, category: "DevOps" },
       { name: "Docker", level: 80, category: "DevOps" },
-      { name: "Kubernetes", level: 75, category: "DevOps" },
-      { name: "AWS", level: 75, category: "DevOps" },
+      { name: "Kubernetes", level: 60, category: "DevOps" },
+      { name: "AWS", level: 60, category: "DevOps" },
       { name: "SEO Optimization", level: 80, category: "DevOps" },
-      { name: "VS Code", level: 95, category: "DevOps" },
-      { name: "NeoVim", level: 95, category: "DevOps" },
     ],
-    tools: [],
+    tools: [
+      { name: "VS Code", level: 95, category: "Tools" },
+      { name: "NeoVim", level: 95, category: "Tools" },
+      { name: "Android Studio", level: 75, category: "Tools" },
+    ],
   },
 
   // Featured Projects
@@ -132,7 +136,6 @@ export const portfolioData = {
         "SEO Optimization",
         "Docker",
       ],
-      githubUrl: "#",
       liveUrl: "https://critiques.she.com/",
       featured: true,
     },
@@ -147,7 +150,6 @@ export const portfolioData = {
         "Machine Learning",
         "Flutter",
         "Python",
-        "TensorFlow",
         "Mobile Development",
       ],
       githubUrl: "https://github.com/zkwokleung/surgical-counting-frontend",
