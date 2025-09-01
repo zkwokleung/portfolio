@@ -122,16 +122,16 @@ export default function Header() {
               </Link>
             ))}
             <div className='flex flex-col space-y-2 mt-4'>
-              <Button
-                variant='outline'
-                size='sm'
-                onClick={() => {
-                  window.open(portfolioData.hero.resumeUrl, '_blank');
-                  setIsMenuOpen(false);
-                }}
-              >
-                Resume
-              </Button>
+              {/* <Button */}
+              {/*   variant='outline' */}
+              {/*   size='sm' */}
+              {/*   onClick={() => { */}
+              {/*     window.open(portfolioData.hero.resumeUrl, '_blank'); */}
+              {/*     setIsMenuOpen(false); */}
+              {/*   }} */}
+              {/* > */}
+              {/*   Resume */}
+              {/* </Button> */}
               <Button
                 size='sm'
                 onClick={() => {
