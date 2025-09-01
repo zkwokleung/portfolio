@@ -55,15 +55,15 @@ export default function Header() {
 
           {/* CTA Button */}
           <div className='hidden md:flex items-center space-x-4'>
-            <Button
-              variant='outline'
-              size='sm'
-              onClick={() =>
-                window.open(portfolioData.hero.resumeUrl, '_blank')
-              }
-            >
-              Resume
-            </Button>
+            {/* <Button */}
+            {/*   variant='outline' */}
+            {/*   size='sm' */}
+            {/*   onClick={() => */}
+            {/*     window.open(portfolioData.hero.resumeUrl, '_blank') */}
+            {/*   } */}
+            {/* > */}
+            {/*   Resume */}
+            {/* </Button> */}
             <Button
               size='sm'
               onClick={() =>
