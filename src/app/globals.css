@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -68,7 +68,8 @@ html {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -104,7 +105,7 @@ html {
     background: var(--foreground);
     opacity: 0.4;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     opacity: 0.6;
   }

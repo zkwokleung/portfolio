@@ -10,7 +10,7 @@ import Footer from '@/components/layout/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen font-sans">
+    <div className='min-h-screen font-sans'>
       <Header />
       <main>
         <Hero />
