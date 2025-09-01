@@ -34,15 +34,15 @@ export const portfolioData = {
       // Core Languages
       { name: 'JavaScript', level: 95, category: 'Languages', featured: true },
       { name: 'TypeScript', level: 95, category: 'Languages', featured: true },
-      { name: 'Python', level: 80, category: 'Languages', featured: true },
-      { name: 'PHP', level: 80, category: 'Languages', featured: true },
       { name: 'C#', level: 95, category: 'Languages', featured: true },
+      { name: 'Python', level: 85, category: 'Languages', featured: true },
+      { name: 'PHP', level: 85, category: 'Languages', featured: true },
 
       // Frontend
       { name: 'React', level: 95, category: 'Frontend', featured: true },
-      { name: 'Next.js', level: 85, category: 'Frontend', featured: true },
+      { name: 'Next.js', level: 95, category: 'Frontend', featured: true },
       { name: 'Tailwind CSS', level: 90, category: 'Frontend', featured: true },
-      { name: 'Flutter', level: 75, category: 'Frontend', featured: true },
+      { name: 'Flutter', level: 85, category: 'Frontend', featured: true },
 
       // Backend
       { name: 'Laravel', level: 85, category: 'Backend', featured: true },
@@ -53,12 +53,6 @@ export const portfolioData = {
       {
         name: 'Computer Vision',
         level: 85,
-        category: 'Specialization',
-        featured: true,
-      },
-      {
-        name: 'LLM Deployment',
-        level: 75,
         category: 'Specialization',
         featured: true,
       },
@@ -310,7 +304,6 @@ export const portfolioData = {
         'React',
         'TypeScript',
         'Tailwind CSS',
-        'LLM Deployment',
         'Local Server Management',
         'AI/ML Infrastructure',
         'SEO Optimization',
