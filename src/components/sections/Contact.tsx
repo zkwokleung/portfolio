@@ -3,18 +3,10 @@
 import { useEffect, useState } from 'react';
 import { portfolioData } from '@/data/portfolio';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
 export default function Contact() {
   const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,30 +25,6 @@ export default function Contact() {
 
     return () => observer.disconnect();
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setIsSubmitting(false);
-
-    // Show success message (in a real app, you'd handle this properly)
-    alert("Thank you for your message! I'll get back to you soon.");
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   return (
     <section id='contact' className='py-20 bg-foreground/[0.02]'>
@@ -80,7 +48,7 @@ export default function Contact() {
             </p>
           </div>
 
-          <div className='grid lg:grid-cols-2 gap-12'>
+          <div className='max-w-3xl mx-auto'>
             {/* Contact Information */}
             <div
               className={cn(
@@ -98,7 +66,7 @@ export default function Contact() {
               </p>
 
               {/* Contact Methods */}
-              <div className='space-y-4 mb-8'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8'>
                 <ContactMethod
                   icon={<EmailIcon className='w-5 h-5' />}
                   label='Email'
@@ -125,8 +93,8 @@ export default function Contact() {
 
               {/* Social Links */}
               <div>
-                <h4 className='font-medium mb-4'>Find me on</h4>
-                <div className='flex space-x-4'>
+                <h4 className='font-medium mb-4 text-center'>Find me on</h4>
+                <div className='flex items-center justify-center gap-4'>
                   {portfolioData.social.map((social) => (
                     <a
                       key={social.name}
@@ -144,103 +112,6 @@ export default function Contact() {
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* Contact Form */}
-            <div
-              className={cn(
-                'transition-all duration-1000 delay-400',
-                isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-8',
-              )}
-            >
-              <form onSubmit={handleSubmit} className='space-y-6'>
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-                  <div>
-                    <label
-                      htmlFor='name'
-                      className='block text-sm font-medium text-foreground mb-2'
-                    >
-                      Name *
-                    </label>
-                    <input
-                      type='text'
-                      id='name'
-                      name='name'
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className='w-full px-4 py-3 bg-background border border-foreground/20 rounded-lg focus:border-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground/10 transition-colors'
-                      placeholder='Your name'
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor='email'
-                      className='block text-sm font-medium text-foreground mb-2'
-                    >
-                      Email *
-                    </label>
-                    <input
-                      type='email'
-                      id='email'
-                      name='email'
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className='w-full px-4 py-3 bg-background border border-foreground/20 rounded-lg focus:border-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground/10 transition-colors'
-                      placeholder='your@email.com'
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor='subject'
-                    className='block text-sm font-medium text-foreground mb-2'
-                  >
-                    Subject *
-                  </label>
-                  <input
-                    type='text'
-                    id='subject'
-                    name='subject'
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className='w-full px-4 py-3 bg-background border border-foreground/20 rounded-lg focus:border-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground/10 transition-colors'
-                    placeholder='Project inquiry, collaboration, etc.'
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor='message'
-                    className='block text-sm font-medium text-foreground mb-2'
-                  >
-                    Message *
-                  </label>
-                  <textarea
-                    id='message'
-                    name='message'
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={6}
-                    className='w-full px-4 py-3 bg-background border border-foreground/20 rounded-lg focus:border-foreground/40 focus:outline-none focus:ring-2 focus:ring-foreground/10 transition-colors resize-none'
-                    placeholder='Tell me about your project or just say hello...'
-                  />
-                </div>
-
-                <Button
-                  type='submit'
-                  disabled={isSubmitting}
-                  className='w-full sm:w-auto min-w-[150px]'
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </Button>
-              </form>
             </div>
           </div>
         </div>
