@@ -189,7 +189,7 @@ export const portfolioData = {
       ],
       githubUrl: '#',
       liveUrl: '#',
-      featured: true,
+      featured: false,
     },
     {
       id: '5',
