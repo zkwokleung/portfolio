@@ -398,6 +398,13 @@ export const portfolioData = {
 
   // About Section
   about: {
+    section: {
+      title: 'About Me',
+      subtitle:
+        'Get to know me better and discover what drives my passion for development',
+      whatIDoTitle: 'What I Do',
+      coreTechnologiesTitle: 'Core Technologies',
+    },
     paragraphs: [
       'My journey into programming began with a simple motivation: I wanted to craft the products I dreamed of. What started as a personal quest has evolved into a passion for creating software that makes a meaningful impact.',
       'I specialize in web development, API design, and game logic with a strong focus on software quality and architecture. My approach centers on design patterns, scalability, and maintainability—ensuring every line of code contributes to robust, future-proof solutions.',
@@ -413,6 +420,15 @@ export const portfolioData = {
       'Cross-cultural communication',
       'Continuous learning & adaptation',
     ],
+    stats: [
+      { key: 'experience', value: '5+', label: 'Years Experience' },
+      { key: 'projects', label: 'Projects Completed' },
+    ],
+    currentFocus: {
+      title: 'Currently Exploring',
+      description:
+        'AI/ML integration in web applications, serverless architectures, and advanced React patterns.',
+    },
   },
 };
 
