@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { portfolioData, type ProjectCategory } from '@/data/portfolio';
-import Container from '@/components/ui/Container';
-import Button, { ButtonLink } from '@/components/ui/Button';
+import { useState } from 'react';
 import ProjectCard from '@/components/sections/ProjectCard';
-import { cn } from '@/lib/utils';
+import Button, { ButtonLink } from '@/components/ui/Button';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import { projects } from '@/data/projects';
+import type { ProjectCategory } from '@/data/types';
 
 type ProjectFilter = 'all' | 'software' | 'medical-education' | 'other';
 
@@ -26,28 +27,8 @@ function matchesFilter(category: ProjectCategory, filter: ProjectFilter) {
 }
 
 export default function Projects() {
-  const [isVisible, setIsVisible] = useState(false);
   const [filter, setFilter] = useState<ProjectFilter>('all');
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.01 },
-    );
-
-    const element = document.getElementById('projects');
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const filteredProjects = portfolioData.projects.filter((project) =>
+  const filteredProjects = projects.filter((project) =>
     matchesFilter(project.category, filter),
   );
 
@@ -55,115 +36,71 @@ export default function Projects() {
     <section
       id='projects'
       aria-labelledby='projects-heading'
-      className='bg-foreground/[0.02] py-20'
+      className='scroll-mt-20 bg-surface-subtle py-24 sm:py-32'
     >
       <Container>
-        <div className='mx-auto max-w-6xl'>
-          <div
-            className={cn(
-              'mb-12 text-center transition-all duration-1000',
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8',
-            )}
-          >
-            <h2
-              id='projects-heading'
-              className='mb-4 text-3xl font-bold md:text-4xl'
-            >
-              Selected Work
-            </h2>
-            <p className='mx-auto max-w-2xl text-lg text-foreground/70'>
-              Native utilities, developer tools, and medical education apps
-              built to solve practical problems.
-            </p>
-          </div>
+        <SectionHeading
+          headingId='projects-heading'
+          title='Selected Work'
+          description='Native utilities, developer tools, and applied products built to solve practical problems across web, mobile, and interactive systems.'
+        />
 
-          <div
-            role='group'
-            aria-label='Filter projects by category'
-            className={cn(
-              'mb-12 flex flex-wrap justify-center gap-3 transition-all delay-200 duration-1000',
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8',
-            )}
-          >
-            {projectFilters.map((projectFilter) => {
-              const count = portfolioData.projects.filter((project) =>
-                matchesFilter(project.category, projectFilter.value),
-              ).length;
+        <div
+          role='group'
+          aria-label='Filter projects by category'
+          className='mt-10 flex flex-wrap justify-center gap-3'
+        >
+          {projectFilters.map((projectFilter) => {
+            const count = projects.filter((project) =>
+              matchesFilter(project.category, projectFilter.value),
+            ).length;
 
-              return (
-                <Button
-                  key={projectFilter.value}
-                  type='button'
-                  variant={
-                    filter === projectFilter.value ? 'default' : 'outline'
-                  }
-                  size='sm'
-                  aria-pressed={filter === projectFilter.value}
-                  onClick={() => setFilter(projectFilter.value)}
-                >
-                  {projectFilter.label} ({count})
-                </Button>
-              );
-            })}
-          </div>
-
-          <div
-            className={cn(
-              'grid grid-cols-1 gap-6 transition-all delay-400 duration-1000 md:grid-cols-2 lg:grid-cols-3',
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8',
-            )}
-          >
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-
-          <div
-            className={cn(
-              'mt-16 text-center transition-all delay-600 duration-1000',
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8',
-            )}
-          >
-            <div className='rounded-lg border border-blue-500/20 bg-gradient-to-r from-blue-500/10 to-purple-500/10 p-8'>
-              <h3 className='mb-4 text-2xl font-bold'>Want to see more?</h3>
-              <p className='mx-auto mb-6 max-w-2xl text-foreground/70'>
-                I&apos;m always working on new projects and experiments. Check
-                out my GitHub for the latest updates and feel free to reach out
-                if you&apos;d like to collaborate!
-              </p>
-              <div className='flex flex-col justify-center gap-4 sm:flex-row'>
-                <ButtonLink
-                  href='https://github.com/zkwokleung'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='min-w-[150px]'
-                >
-                  View GitHub
-                </ButtonLink>
-                <Button
-                  type='button'
-                  variant='outline'
-                  onClick={() =>
-                    document
-                      .getElementById('contact')
-                      ?.scrollIntoView({ behavior: 'smooth' })
-                  }
-                  className='min-w-[150px]'
-                >
-                  Get In Touch
-                </Button>
-              </div>
-            </div>
-          </div>
+            return (
+              <Button
+                key={projectFilter.value}
+                variant={filter === projectFilter.value ? 'default' : 'outline'}
+                size='sm'
+                aria-pressed={filter === projectFilter.value}
+                onClick={() => setFilter(projectFilter.value)}
+              >
+                {projectFilter.label} ({count})
+              </Button>
+            );
+          })}
         </div>
+
+        <p className='sr-only' aria-live='polite'>
+          Showing {filteredProjects.length} projects
+        </p>
+        <div className='mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+
+        <aside className='mt-16 rounded-2xl border border-accent/20 bg-accent/10 p-8 text-center sm:p-10'>
+          <h3 className='text-2xl font-bold tracking-tight text-foreground'>
+            Explore the rest of my work
+          </h3>
+          <p className='mx-auto mt-3 max-w-2xl leading-7 text-muted'>
+            GitHub has the latest utilities and experiments. If a project here
+            connects with what you are building, I would be glad to discuss the
+            details.
+          </p>
+          <div className='mt-6 flex flex-col justify-center gap-3 sm:flex-row'>
+            <ButtonLink
+              href='https://github.com/zkwokleung'
+              target='_blank'
+              rel='noopener noreferrer'
+              aria-label='View GitHub profile (opens in a new tab)'
+            >
+              View GitHub
+            </ButtonLink>
+            <ButtonLink href='#contact' variant='outline'>
+              Get In Touch
+            </ButtonLink>
+          </div>
+        </aside>
       </Container>
     </section>
   );

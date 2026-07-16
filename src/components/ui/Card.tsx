@@ -1,28 +1,18 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface CardProps {
   children: ReactNode;
   className?: string;
-  hover?: boolean;
-  style?: React.CSSProperties;
 }
 
-export default function Card({
-  children,
-  className,
-  hover = false,
-  style,
-}: CardProps) {
+export default function Card({ children, className }: CardProps) {
   return (
     <div
       className={cn(
-        'bg-background border border-foreground/10 rounded-lg p-6 shadow-sm',
-        hover &&
-          'transition-all duration-300 hover:shadow-md hover:scale-105 hover:border-foreground/20',
+        'rounded-card border border-border bg-surface p-6 shadow-card',
         className,
       )}
-      style={style}
     >
       {children}
     </div>
@@ -56,9 +46,7 @@ export function CardDescription({
   children: ReactNode;
   className?: string;
 }) {
-  return (
-    <p className={cn('text-foreground/70 text-sm', className)}>{children}</p>
-  );
+  return <p className={cn('text-sm text-muted', className)}>{children}</p>;
 }
 
 export function CardContent({
@@ -68,7 +56,7 @@ export function CardContent({
   children: ReactNode;
   className?: string;
 }) {
-  return <div className={cn('', className)}>{children}</div>;
+  return <div className={className}>{children}</div>;
 }
 
 export function CardFooter({
@@ -79,7 +67,7 @@ export function CardFooter({
   className?: string;
 }) {
   return (
-    <div className={cn('mt-4 pt-4 border-t border-foreground/10', className)}>
+    <div className={cn('mt-4 border-t border-border pt-4', className)}>
       {children}
     </div>
   );

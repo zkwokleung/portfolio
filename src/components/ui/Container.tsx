@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface ContainerProps {
@@ -22,7 +22,7 @@ export default function Container({
   return (
     <div
       className={cn(
-        'mx-auto px-4 sm:px-6 lg:px-8',
+        'mx-auto w-full px-5 sm:px-8 lg:px-10',
         containerSizes[size],
         className,
       )}
