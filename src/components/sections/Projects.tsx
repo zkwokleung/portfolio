@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProjectCard from '@/components/sections/ProjectCard';
 import Button, { ButtonLink } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
@@ -27,10 +27,13 @@ function matchesFilter(category: ProjectCategory, filter: ProjectFilter) {
 }
 
 export default function Projects() {
+  const [isHydrated, setIsHydrated] = useState(false);
   const [filter, setFilter] = useState<ProjectFilter>('all');
   const filteredProjects = projects.filter((project) =>
     matchesFilter(project.category, filter),
   );
+
+  useEffect(() => setIsHydrated(true), []);
 
   return (
     <section
@@ -46,6 +49,7 @@ export default function Projects() {
         />
 
         <div
+          hidden={!isHydrated}
           role='group'
           aria-label='Filter projects by category'
           className='mt-10 flex flex-wrap justify-center gap-3'

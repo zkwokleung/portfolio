@@ -23,8 +23,6 @@ const categoryLabels: Record<ProjectCategory, string> = {
   coursework: 'Coursework',
 };
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return caseStudies.map((caseStudy) => ({ slug: caseStudy.slug }));
 }
@@ -44,11 +42,48 @@ export async function generateMetadata({
   const { slug } = await params;
   const data = getPageData(slug);
 
-  if (!data) return { title: 'Case Study Not Found' };
+  if (!data) {
+    return {
+      title: 'Case Study Not Found',
+      alternates: { canonical: null },
+      openGraph: null,
+      twitter: null,
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = `${data.project.title} Case Study`;
+  const socialTitle = `${title} | ${siteData.name}`;
+  const pathname = `/case-studies/${slug}`;
+  const socialImage = {
+    url: '/opengraph-image',
+    width: 1200,
+    height: 630,
+    alt: `${siteData.name}, ${siteData.title}`,
+  };
 
   return {
-    title: `${data.project.title} Case Study`,
+    title,
     description: data.caseStudy.summary,
+    alternates: {
+      canonical: pathname,
+    },
+    openGraph: {
+      title: socialTitle,
+      description: data.caseStudy.summary,
+      type: 'website',
+      url: pathname,
+      locale: 'en_US',
+      siteName: `${siteData.name} Portfolio`,
+      images: [socialImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: socialTitle,
+      description: data.caseStudy.summary,
+      creator: '@zkwokleung',
+      images: [socialImage],
+    },
   };
 }
 

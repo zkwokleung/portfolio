@@ -1,6 +1,13 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
+const testOrigin = new URL(
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+).origin;
+const socialImageUrl = new RegExp(
+  `^${testOrigin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/opengraph-image`,
+);
+
 const caseStudies = [
   {
     path: '/case-studies/karabiner-config-editor',
@@ -32,6 +39,26 @@ test('renders the homepage shell and core content', async ({ page }) => {
   await expect(page.getByRole('banner')).toBeVisible();
   await expect(page.getByRole('main')).toBeVisible();
   await expect(page.getByRole('contentinfo')).toBeVisible();
+  await expect(page.locator("link[rel='canonical']")).toHaveAttribute(
+    'href',
+    testOrigin,
+  );
+  await expect(page.locator("meta[property='og:url']")).toHaveAttribute(
+    'content',
+    testOrigin,
+  );
+  await expect(page.locator("meta[property='og:title']")).toHaveAttribute(
+    'content',
+    'Andrew SZE-TO | Full-stack Developer',
+  );
+  await expect(page.locator("meta[property='og:image']")).toHaveAttribute(
+    'content',
+    socialImageUrl,
+  );
+  await expect(page.locator("meta[name='twitter:image']")).toHaveAttribute(
+    'content',
+    socialImageUrl,
+  );
 
   for (const heading of [
     'About Me',
@@ -105,21 +132,24 @@ test('supports desktop and mobile navigation', async ({ page }) => {
   await page.goto('/');
   await expect(desktopNavigation).toBeHidden();
 
+  const mobileMenu = page.locator('header details');
   const menuButton = page.getByRole('button', { name: 'Open navigation menu' });
-  await expect(menuButton).toHaveAttribute('aria-expanded', 'false');
+  await expect(mobileMenu).not.toHaveAttribute('open', '');
   await menuButton.click();
+  await expect(mobileMenu).toHaveAttribute('open', '');
   await expect(
     page.getByRole('navigation', { name: 'Mobile navigation' }),
   ).toBeVisible();
   await expect(
     page.getByRole('button', { name: 'Close navigation menu' }),
-  ).toHaveAttribute('aria-expanded', 'true');
+  ).toBeVisible();
 
   await page
     .getByRole('navigation', { name: 'Mobile navigation' })
     .getByRole('link', { name: 'About' })
     .click();
-  await expect(page.locator('#mobile-navigation')).toHaveCount(0);
+  await expect(mobileMenu).not.toHaveAttribute('open', '');
+  await expect(page.locator('#mobile-navigation')).toBeHidden();
   await expect(page).toHaveURL(/#about$/);
 
   await page.getByRole('button', { name: 'Open navigation menu' }).click();
@@ -128,7 +158,8 @@ test('supports desktop and mobile navigation', async ({ page }) => {
     .getByRole('link', { name: 'Work' });
   await workLink.focus();
   await workLink.press('Escape');
-  await expect(page.locator('#mobile-navigation')).toHaveCount(0);
+  await expect(mobileMenu).not.toHaveAttribute('open', '');
+  await expect(page.locator('#mobile-navigation')).toBeHidden();
   await expect(
     page.getByRole('button', { name: 'Open navigation menu' }),
   ).toBeFocused();
@@ -138,6 +169,38 @@ test('supports desktop and mobile navigation', async ({ page }) => {
     scrollWidth: document.documentElement.scrollWidth,
   }));
   expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.clientWidth);
+});
+
+test.describe('without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('keeps mobile navigation and project content usable', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    await expect(
+      page.getByRole('group', { name: 'Filter projects by category' }),
+    ).toBeHidden();
+    await expect(page.locator("#projects article[id^='project-']")).toHaveCount(
+      10,
+    );
+
+    const mobileNavigation = page.getByRole('navigation', {
+      name: 'Mobile navigation',
+    });
+    await expect(mobileNavigation).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: 'Open navigation menu' }),
+    ).toBeHidden();
+    await mobileNavigation.getByRole('link', { name: 'Work' }).click();
+
+    await expect(page).toHaveURL(/#projects$/);
+    await expect(
+      page.getByRole('heading', { name: 'Selected Work' }),
+    ).toBeInViewport();
+  });
 });
 
 test('provides a keyboard skip path to main content', async ({ page }) => {
@@ -178,38 +241,90 @@ test('renders case studies, metadata routes, and unknown-slug 404s', async ({
     );
     await expect(page.locator("link[rel='canonical']")).toHaveAttribute(
       'href',
-      new RegExp(`${caseStudy.path}$`),
+      `${testOrigin}${caseStudy.path}`,
+    );
+    await expect(page.locator("meta[property='og:url']")).toHaveAttribute(
+      'content',
+      `${testOrigin}${caseStudy.path}`,
+    );
+    await expect(page.locator("meta[property='og:title']")).toHaveAttribute(
+      'content',
+      `${caseStudy.title} Case Study | Andrew SZE-TO`,
+    );
+    await expect(page.locator("meta[name='twitter:title']")).toHaveAttribute(
+      'content',
+      `${caseStudy.title} Case Study | Andrew SZE-TO`,
     );
   }
 
-  const missing = await request.get('/case-studies/not-a-case-study');
-  expect(missing.status()).toBe(404);
+  const missing = await page.goto('/case-studies/not-a-case-study');
+  expect(missing?.status()).toBe(404);
+  await expect(page.locator("link[rel='canonical']")).toHaveCount(0);
+  await expect(page.locator("meta[property='og:url']")).toHaveCount(0);
 
   const sitemap = await request.get('/sitemap.xml');
   expect(sitemap.ok()).toBe(true);
+  expect(sitemap.headers()['content-type']).toContain('application/xml');
   const sitemapText = await sitemap.text();
-  expect((sitemapText.match(/<url>/g) ?? []).length).toBe(4);
+  const sitemapUrls = [
+    `${testOrigin}/`,
+    ...caseStudies.map(({ path }) => `${testOrigin}${path}`),
+  ];
+  expect(sitemapText.match(/<loc>[^<]+<\/loc>/g)).toEqual(
+    sitemapUrls.map((url) => `<loc>${url}</loc>`),
+  );
 
   const robots = await request.get('/robots.txt');
   expect(robots.ok()).toBe(true);
-  expect(await robots.text()).toContain('Sitemap:');
+  expect(robots.headers()['content-type']).toContain('text/plain');
+  expect(await robots.text()).toBe(
+    `User-Agent: *\nAllow: /\n\nSitemap: ${testOrigin}/sitemap.xml\n`,
+  );
 
   const socialImage = await request.get('/opengraph-image');
   expect(socialImage.ok()).toBe(true);
   expect(socialImage.headers()['content-type']).toContain('image/png');
+  expect((await socialImage.body()).byteLength).toBeGreaterThan(1000);
+});
+
+test('renders an accessible noindex page for unknown routes', async ({
+  page,
+}) => {
+  const response = await page.goto('/not-a-portfolio-route');
+
+  expect(response?.status()).toBe(404);
+  await expect(page.getByText('This page could not be found.')).toBeVisible();
+  await expect(page.locator("meta[name='robots']")).toHaveAttribute(
+    'content',
+    /noindex/i,
+  );
+  await expectNoAccessibilityViolations(page);
 });
 
 test('has no automatically detectable WCAG A or AA violations', async ({
   page,
 }) => {
+  await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/');
+  const lightColors = await page.locator('body').evaluate((body) => ({
+    background: getComputedStyle(body).backgroundColor,
+    foreground: getComputedStyle(body).color,
+  }));
   await expectNoAccessibilityViolations(page);
 
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.reload();
+  const darkColors = await page.locator('body').evaluate((body) => ({
+    background: getComputedStyle(body).backgroundColor,
+    foreground: getComputedStyle(body).color,
+  }));
+  expect(darkColors).not.toEqual(lightColors);
   await expectNoAccessibilityViolations(page);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('button', { name: 'Open navigation menu' }).click();
+  await expectNoAccessibilityViolations(page);
+
+  await page.goto(caseStudies[0].path);
   await expectNoAccessibilityViolations(page);
 });

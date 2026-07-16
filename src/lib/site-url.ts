@@ -1,4 +1,4 @@
-const LOCAL_SITE_URL = 'http://localhost:3000';
+const PRODUCTION_SITE_URL = 'https://portfolio.andrewszeto.com';
 
 function parseSiteUrl(value: string) {
   let url: URL;
@@ -29,7 +29,7 @@ function parseSiteUrl(value: string) {
 }
 
 export const siteUrl = parseSiteUrl(
-  process.env.NEXT_PUBLIC_SITE_URL ?? LOCAL_SITE_URL,
+  process.env.NEXT_PUBLIC_SITE_URL ?? PRODUCTION_SITE_URL,
 );
 
 export function absoluteUrl(pathname: string) {

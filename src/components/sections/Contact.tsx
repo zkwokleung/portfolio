@@ -141,27 +141,25 @@ export default function Contact() {
             </h3>
             <dl className='mt-6 space-y-6'>
               {contactDetails.map((detail) => (
-                <div key={detail.label} className='flex gap-4'>
-                  <span className='flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-accent'>
-                    {detail.icon}
-                  </span>
-                  <div className='min-w-0 pt-0.5'>
-                    <dt className='text-sm font-medium text-muted'>
-                      {detail.label}
-                    </dt>
-                    <dd className='mt-1 break-words text-base font-medium text-foreground'>
-                      {detail.href ? (
-                        <a
-                          href={detail.href}
-                          className='rounded-sm underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent'
-                        >
-                          {detail.value}
-                        </a>
-                      ) : (
-                        detail.value
-                      )}
-                    </dd>
-                  </div>
+                <div key={detail.label}>
+                  <dt className='flex items-center gap-4 text-sm font-medium text-muted'>
+                    <span className='flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-accent'>
+                      {detail.icon}
+                    </span>
+                    <span>{detail.label}</span>
+                  </dt>
+                  <dd className='-mt-4 ml-14 break-words text-base font-medium text-foreground'>
+                    {detail.href ? (
+                      <a
+                        href={detail.href}
+                        className='rounded-sm underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent'
+                      >
+                        {detail.value}
+                      </a>
+                    ) : (
+                      detail.value
+                    )}
+                  </dd>
                 </div>
               ))}
             </dl>

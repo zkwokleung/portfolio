@@ -14,6 +14,13 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const socialImage = {
+  url: '/opengraph-image',
+  width: 1200,
+  height: 630,
+  alt: `${siteData.name}, ${siteData.title}`,
+};
+
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   title: {
@@ -22,7 +29,7 @@ export const metadata: Metadata = {
   },
   description: siteData.hero.description,
   alternates: {
-    canonical: './',
+    canonical: '/',
   },
   keywords: [
     'Andrew SZE-TO',
@@ -44,23 +51,20 @@ export const metadata: Metadata = {
     title: `${siteData.name} | ${siteData.title}`,
     description: siteData.hero.description,
     type: 'website',
-    url: './',
+    url: '/',
     locale: 'en_US',
     siteName: `${siteData.name} Portfolio`,
+    images: [socialImage],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${siteData.name} | ${siteData.title}`,
     description: siteData.hero.description,
     creator: '@zkwokleung',
-    images: ['/opengraph-image'],
+    images: [socialImage],
   },
   robots: {
-    index: true,
-    follow: true,
     googleBot: {
-      index: true,
-      follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,

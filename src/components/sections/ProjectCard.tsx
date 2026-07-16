@@ -49,7 +49,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           ) : (
             <div
               aria-hidden='true'
-              className='flex h-full items-center justify-center text-4xl font-bold text-muted/40'
+              className='flex h-full items-center justify-center text-4xl font-bold text-muted'
             >
               {initials}
             </div>
