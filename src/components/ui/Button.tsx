@@ -1,9 +1,23 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ReactNode,
+} from 'react';
 import { cn } from '@/lib/utils';
 
+type ButtonVariant = 'default' | 'outline' | 'ghost' | 'link';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline' | 'ghost' | 'link';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  children: ReactNode;
+  className?: string;
+}
+
+interface ButtonLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   children: ReactNode;
   className?: string;
 }
@@ -21,6 +35,19 @@ const buttonSizes = {
   lg: 'px-6 py-3 text-lg',
 };
 
+function getButtonClassName(
+  variant: ButtonVariant,
+  size: ButtonSize,
+  className?: string,
+) {
+  return cn(
+    'inline-flex cursor-pointer items-center justify-center rounded-md font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+    buttonVariants[variant],
+    buttonSizes[size],
+    className,
+  );
+}
+
 export default function Button({
   variant = 'default',
   size = 'md',
@@ -30,15 +57,24 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={cn(
-        'rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-foreground/20 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
-        buttonVariants[variant],
-        buttonSizes[size],
-        className,
-      )}
+      className={getButtonClassName(variant, size, className)}
       {...props}
     >
       {children}
     </button>
+  );
+}
+
+export function ButtonLink({
+  variant = 'default',
+  size = 'md',
+  className,
+  children,
+  ...props
+}: ButtonLinkProps) {
+  return (
+    <a className={getButtonClassName(variant, size, className)} {...props}>
+      {children}
+    </a>
   );
 }

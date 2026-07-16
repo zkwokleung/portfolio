@@ -1,4 +1,36 @@
 // Portfolio data - Edit this file to customize your content
+export type ProjectCategory =
+  | 'software'
+  | 'medical-education'
+  | 'professional'
+  | 'coursework';
+
+export type ProjectLinkKind = 'github' | 'live' | 'official' | 'app-store';
+
+export interface ProjectLink {
+  label: string;
+  url: string;
+  kind: ProjectLinkKind;
+}
+
+export interface ProjectImage {
+  src: string;
+  alt: string;
+  fit: 'cover' | 'contain';
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  contribution: string;
+  category: ProjectCategory;
+  image?: ProjectImage;
+  technologies: string[];
+  links: ProjectLink[];
+  featured: boolean;
+}
+
 export const portfolioData = {
   // Personal Information
   name: 'Andrew SZE-TO',
@@ -115,11 +147,163 @@ export const portfolioData = {
   // Featured Projects
   projects: [
     {
-      id: '1',
+      id: 'shortcut-wheel',
+      title: 'Shortcut Wheel',
+      description:
+        'A native macOS menu-bar utility that opens a configurable radial shortcut menu from a global keyboard or mouse trigger. Slices can send keystrokes, launch apps and URLs, run scripts, or open nested wheels.',
+      contribution:
+        'Personal project: designed and built the native app, global input handling, radial interactions, JSON persistence, automated tests, and universal DMG release workflow.',
+      category: 'software',
+      image: {
+        src: '/projects/shortcut-wheel.webp',
+        alt: 'Shortcut Wheel macOS application icon and radial menu',
+        fit: 'contain',
+      },
+      technologies: [
+        'Swift',
+        'SwiftUI',
+        'AppKit',
+        'CGEventTap',
+        'GitHub Actions',
+      ],
+      links: [
+        {
+          label: 'GitHub',
+          url: 'https://github.com/zkwokleung/shortcut-wheel',
+          kind: 'github',
+        },
+      ],
+      featured: true,
+    },
+    {
+      id: 'karabiner-config-editor',
+      title: 'Karabiner Config Editor',
+      description:
+        'A visual editor for importing, editing, validating, and exporting Karabiner-Elements configuration files, including complex modifications and ANSI, ISO, and JIS keyboard layouts.',
+      contribution:
+        'Personal project: designed and implemented the editor, drag-and-drop rule builder, keyboard visualization, conflict validation, and structured JSON export workflow.',
+      category: 'software',
+      image: {
+        src: '/projects/karabiner-config-editor.webp',
+        alt: 'Karabiner Config Editor configuration interface',
+        fit: 'cover',
+      },
+      technologies: [
+        'Next.js',
+        'React',
+        'TypeScript',
+        'Tailwind CSS',
+        'dnd-kit',
+        'Zod',
+      ],
+      links: [
+        {
+          label: 'GitHub',
+          url: 'https://github.com/zkwokleung/karabiner-config-editor',
+          kind: 'github',
+        },
+        {
+          label: 'Live App',
+          url: 'https://karabiner-config-editor.vercel.app',
+          kind: 'live',
+        },
+      ],
+      featured: true,
+    },
+    {
+      id: 'git-easy',
+      title: 'Git Easy',
+      description:
+        'A Flow Launcher plugin for cloning, fetching, fuzzy-searching, and opening Git repositories across multiple local root folders.',
+      contribution:
+        'Created and maintain the open-source plugin, its multi-root repository workflow, settings UI, and automated release pipeline while incorporating community contributions.',
+      category: 'software',
+      image: {
+        src: '/projects/git-easy.webp',
+        alt: 'Git Easy plugin for Flow Launcher',
+        fit: 'contain',
+      },
+      technologies: [
+        'C#',
+        '.NET 7',
+        'WPF',
+        'Flow Launcher API',
+        'GitHub Actions',
+      ],
+      links: [
+        {
+          label: 'GitHub',
+          url: 'https://github.com/zkwokleung/Flow.Launcher.Plugin.GitEasy',
+          kind: 'github',
+        },
+      ],
+      featured: true,
+    },
+    {
+      id: 'nasogastrix',
+      title: 'NasogastriX',
+      description:
+        'An interactive radiology education app combining teaching modules and mini-games to help learners assess nasogastric tube positioning on chest X-rays.',
+      contribution:
+        'Developed the Unity and C# application, gameplay systems, and UI; integrated the supplied AI classification and Grad-CAM workflow; and handled releases and ongoing maintenance.',
+      category: 'medical-education',
+      image: {
+        src: '/projects/nasogastrix.webp',
+        alt: 'NasogastriX radiology education application',
+        fit: 'cover',
+      },
+      technologies: [
+        'Unity',
+        'C#',
+        'Machine Learning',
+        'Computer Vision',
+        'Grad-CAM',
+      ],
+      links: [
+        {
+          label: 'Official Page',
+          url: 'https://www.focusedradiology.com/nasogastrix',
+          kind: 'official',
+        },
+      ],
+      featured: true,
+    },
+    {
+      id: 'tga-radiology-guide',
+      title: 'Transient Global Amnesia: A Radiology Guide',
+      description:
+        'An interactive tutorial covering the pathophysiology, imaging findings, and differential diagnoses of transient global amnesia through real clinical MR cases and self-assessment exercises.',
+      contribution:
+        'Built the Flutter and Dart application end to end, implemented collaborator-supplied medical content and touch interactions, and manage its App Store releases and maintenance.',
+      category: 'medical-education',
+      image: {
+        src: '/projects/tga-radiology-guide.webp',
+        alt: 'Transient Global Amnesia radiology guide application',
+        fit: 'cover',
+      },
+      technologies: ['Flutter', 'Dart', 'iOS', 'Interactive Learning'],
+      links: [
+        {
+          label: 'Official Page',
+          url: 'https://www.focusedradiology.com/transient-global-amnesia',
+          kind: 'official',
+        },
+        {
+          label: 'App Store',
+          url: 'https://apps.apple.com/us/app/transient-global-amnesia/id6737163395',
+          kind: 'app-store',
+        },
+      ],
+      featured: true,
+    },
+    {
+      id: 'beauty-product-review-platform',
       title: 'Beauty Product Review Platform',
       description:
-        'Led the complete architectural overhaul of a beauty product review platform, transforming legacy systems into a modern, scalable solution using Next.js and Laravel. Implemented comprehensive SEO strategies, AI-first content optimization, and deployed internal LLM model for enhanced user experience.',
-      image: '/projects/beauty-platform.jpg',
+        'A modernized beauty product review platform with a scalable Next.js and Laravel architecture, improved search performance, and AI-assisted content workflows.',
+      contribution:
+        'Led the architectural overhaul, SEO and Core Web Vitals work, AI-first content optimization, and deployment of an internal LLM service.',
+      category: 'professional',
       technologies: [
         'Next.js',
         'Laravel',
@@ -130,15 +314,23 @@ export const portfolioData = {
         'SEO Optimization',
         'Docker',
       ],
-      liveUrl: 'https://critiques.she.com/',
-      featured: true,
+      links: [
+        {
+          label: 'Live Site',
+          url: 'https://critiques.she.com/',
+          kind: 'live',
+        },
+      ],
+      featured: false,
     },
     {
-      id: '2',
+      id: 'surgical-counting-cv',
       title: 'Surgical Counting Computer Vision System',
       description:
-        'Collaborated with Blueinno Technology HK to develop a high-precision surgical counting computer vision model achieving over 99% accuracy. Successfully deployed the model to a cross-platform mobile application built using Flutter for real-world medical applications.',
-      image: '/projects/surgical-cv.jpg',
+        'A high-precision computer vision system for counting surgical instruments, deployed through a cross-platform Flutter application for practical medical use.',
+      contribution:
+        'Collaborated with Blueinno Technology HK on the computer vision model and integrated the resulting system into the Flutter mobile application.',
+      category: 'professional',
       technologies: [
         'Computer Vision',
         'Machine Learning',
@@ -146,51 +338,23 @@ export const portfolioData = {
         'Python',
         'Mobile Development',
       ],
-      githubUrl: 'https://github.com/zkwokleung/surgical-counting-frontend',
-      liveUrl: '#',
-      featured: true,
-    },
-    {
-      id: '3',
-      title: 'Educational Radiology Game with AI',
-      description:
-        'Developed an award-winning educational game for the radiology field using Unity, incorporating advanced AI features including Machine Learning models for abnormal nasogastric tube detection. Collaborated with Ph.D. research teams to deliver a tool with real-world medical applications.',
-      image: '/projects/radiology-game.jpg',
-      technologies: [
-        'Unity',
-        'C#',
-        'Machine Learning',
-        'AI Integration',
-        'Game Development',
-        'Medical AI',
+      links: [
+        {
+          label: 'GitHub',
+          url: 'https://github.com/zkwokleung/surgical-counting-frontend',
+          kind: 'github',
+        },
       ],
-      githubUrl: '#',
-      liveUrl: '#',
-      featured: true,
-    },
-    {
-      id: '4',
-      title: 'VR Multiplayer Endless Runner Game',
-      description:
-        'Developed a VR-supported online multiplayer endless runner game as Final Year Project at HKIVE. Featured innovative VR mechanics, seamless multiplayer networking, and engaging gameplay mechanics that showcased advanced game development skills.',
-      image: '/projects/vr-runner.jpg',
-      technologies: [
-        'Unity',
-        'C#',
-        'VR Development',
-        'Multiplayer Networking',
-        'Game Physics',
-      ],
-      githubUrl: '#',
-      liveUrl: '#',
       featured: false,
     },
     {
-      id: '5',
-      title: 'Mahjong Online Multiplayer Game',
+      id: 'mahjong-multiplayer',
+      title: 'NeuroGym Multiplayer Mahjong',
       description:
-        "Developed complete multiplayer game mode for Mahjong using Photon API for Unity in just 3 weeks during internship at MedMind Technology. Became the product's most significant selling point during the pandemic, delivering high-quality gaming experience under tight deadline.",
-      image: '/projects/mahjong-multiplayer.jpg',
+        'A networked Mahjong mode within NeuroGym, an evidence-based cognitive training platform designed for older adults. The platform uses culturally familiar games to support attention, memory, hand-eye coordination, executive function, language, and visuospatial skills.',
+      contribution:
+        'Built the complete Unity and Photon multiplayer Mahjong experience during a three-week internship sprint, including real-time gameplay synchronization and networking for remote play.',
+      category: 'professional',
       technologies: [
         'Unity',
         'C#',
@@ -198,16 +362,41 @@ export const portfolioData = {
         'Multiplayer Development',
         'Game Networking',
       ],
-      githubUrl: '#',
-      liveUrl: 'https://www.medmindtechnology.hk/neurogym',
+      links: [
+        {
+          label: 'NeuroGym Product Page',
+          url: 'https://www.medmindtechnology.hk/neurogym',
+          kind: 'official',
+        },
+      ],
       featured: false,
     },
     {
-      id: '6',
+      id: 'vr-endless-runner',
+      title: 'VR Multiplayer Endless Runner Game',
+      description:
+        'A VR-supported online multiplayer endless runner created as a final-year project, combining immersive controls, networked play, and real-time game physics.',
+      contribution:
+        'Developed the game systems, VR mechanics, multiplayer networking, and interactive gameplay as the HKIVE final-year project.',
+      category: 'coursework',
+      technologies: [
+        'Unity',
+        'C#',
+        'VR Development',
+        'Multiplayer Networking',
+        'Game Physics',
+      ],
+      links: [],
+      featured: false,
+    },
+    {
+      id: 'opengl-space-shooter',
       title: 'OpenGL Space Shooter Game',
       description:
-        'Developed a space shooter game using OpenGL with Object-Oriented Programming techniques as part of computer graphics coursework. Implemented advanced graphics rendering, game physics, and interactive gameplay mechanics demonstrating low-level graphics programming skills.',
-      image: '/projects/space-shooter.jpg',
+        'A space shooter built with OpenGL and object-oriented C++ to explore low-level rendering, game physics, and interactive graphics programming.',
+      contribution:
+        'Implemented the rendering pipeline, object-oriented game systems, physics, and interactive gameplay for computer graphics coursework.',
+      category: 'coursework',
       technologies: [
         'OpenGL',
         'C++',
@@ -215,11 +404,16 @@ export const portfolioData = {
         'Game Physics',
         'OOP',
       ],
-      githubUrl: 'https://github.com/zkwokleung/cuhk-csci3260',
-      liveUrl: '#',
+      links: [
+        {
+          label: 'GitHub',
+          url: 'https://github.com/zkwokleung/cuhk-csci3260',
+          kind: 'github',
+        },
+      ],
       featured: false,
     },
-  ],
+  ] satisfies Project[],
 
   // Education
   education: [
