@@ -1,7 +1,7 @@
 # Andrew SZE-TO - Portfolio
 
 The source for [portfolio.andrewszeto.com](https://portfolio.andrewszeto.com), a
-responsive portfolio built with Next.js 15, React 19, TypeScript, and Tailwind
+responsive portfolio built with Next.js 16, React 19, TypeScript, and Tailwind
 CSS 4.
 
 The site presents selected software and medical-education work, detailed case

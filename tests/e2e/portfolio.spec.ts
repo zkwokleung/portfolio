@@ -261,6 +261,9 @@ test('renders case studies, metadata routes, and unknown-slug 404s', async ({
   expect(missing?.status()).toBe(404);
   await expect(page.locator("link[rel='canonical']")).toHaveCount(0);
   await expect(page.locator("meta[property='og:url']")).toHaveCount(0);
+  await expect(page.locator("meta[property='og:title']")).toHaveCount(0);
+  await expect(page.locator("meta[property='og:image']")).toHaveCount(0);
+  await expect(page.locator("meta[name^='twitter:']")).toHaveCount(0);
 
   const sitemap = await request.get('/sitemap.xml');
   expect(sitemap.ok()).toBe(true);
