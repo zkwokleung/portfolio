@@ -1,150 +1,139 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { portfolioData } from '@/data/portfolio';
+import { useRef } from 'react';
+import { ButtonLink } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
-import Button from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
+import { siteData } from '@/data/site';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const menuRef = useRef<HTMLDetailsElement>(null);
+  const menuButtonRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  function closeMenu() {
+    if (menuRef.current) menuRef.current.open = false;
+  }
 
   return (
     <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-background/95 backdrop-blur-sm border-b border-foreground/10 shadow-sm'
-          : 'bg-transparent',
-      )}
+      className='fixed inset-x-0 top-0 z-50 border-b border-border bg-background/90 shadow-sm backdrop-blur-md'
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && menuRef.current?.open) {
+          closeMenu();
+          menuButtonRef.current?.focus();
+        }
+      }}
     >
       <Container>
-        <div className='flex items-center justify-between h-16'>
-          {/* Logo */}
+        <div className='flex h-16 items-center justify-between gap-6'>
           <Link
             href='/'
-            className='text-xl font-bold transition-colors hover:text-foreground/80'
+            className='shrink-0 rounded-sm text-lg font-bold tracking-tight text-foreground transition-colors hover:text-accent sm:text-xl'
+            onClick={closeMenu}
           >
-            {portfolioData.name}
+            {siteData.name}
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className='hidden md:flex items-center space-x-8'>
-            {portfolioData.navigation.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className='text-sm font-medium transition-colors hover:text-foreground/80 relative group'
-              >
-                {item.label}
-                <span className='absolute -bottom-1 left-0 w-0 h-0.5 bg-foreground transition-all duration-300 group-hover:w-full'></span>
-              </Link>
-            ))}
+          <nav aria-label='Primary navigation' className='hidden lg:block'>
+            <ul className='flex items-center gap-7'>
+              {siteData.navigation.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className='rounded-sm text-sm font-medium text-muted transition-colors hover:text-foreground'
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
 
-          {/* CTA Button */}
-          <div className='hidden md:flex items-center space-x-4'>
-            {/* <Button */}
-            {/*   variant='outline' */}
-            {/*   size='sm' */}
-            {/*   onClick={() => */}
-            {/*     window.open(portfolioData.hero.resumeUrl, '_blank') */}
-            {/*   } */}
-            {/* > */}
-            {/*   Resume */}
-            {/* </Button> */}
-            <Button
-              size='sm'
-              onClick={() =>
-                document
-                  .getElementById('contact')
-                  ?.scrollIntoView({ behavior: 'smooth' })
-              }
-            >
+          <div className='hidden lg:block'>
+            <ButtonLink href='#contact' size='sm'>
               Contact
-            </Button>
+            </ButtonLink>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className='md:hidden relative w-6 h-6 focus:outline-none'
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label='Toggle menu'
+          <details
+            id='mobile-menu-disclosure'
+            ref={menuRef}
+            className='group lg:hidden'
           >
-            <span
-              className={cn(
-                'absolute top-0 left-0 w-6 h-0.5 bg-foreground transition-all duration-300',
-                isMenuOpen ? 'rotate-45 top-3' : '',
-              )}
-            />
-            <span
-              className={cn(
-                'absolute top-2.5 left-0 w-6 h-0.5 bg-foreground transition-all duration-300',
-                isMenuOpen ? 'opacity-0' : '',
-              )}
-            />
-            <span
-              className={cn(
-                'absolute top-5 left-0 w-6 h-0.5 bg-foreground transition-all duration-300',
-                isMenuOpen ? '-rotate-45 top-3' : '',
-              )}
-            />
-          </button>
-        </div>
+            <summary
+              ref={menuButtonRef}
+              role='button'
+              aria-controls='mobile-navigation'
+              className='relative inline-flex size-11 shrink-0 cursor-pointer list-none items-center justify-center rounded-md text-foreground transition-colors hover:bg-surface-subtle [&::-webkit-details-marker]:hidden'
+            >
+              <span className='sr-only group-open:hidden'>
+                Open navigation menu
+              </span>
+              <span className='sr-only hidden group-open:inline'>
+                Close navigation menu
+              </span>
+              <span
+                aria-hidden='true'
+                className='absolute h-0.5 w-6 -translate-y-2 bg-current transition-transform duration-200 group-open:translate-y-0 group-open:rotate-45'
+              />
+              <span
+                aria-hidden='true'
+                className='absolute h-0.5 w-6 bg-current transition-opacity duration-200 group-open:opacity-0'
+              />
+              <span
+                aria-hidden='true'
+                className='absolute h-0.5 w-6 translate-y-2 bg-current transition-transform duration-200 group-open:translate-y-0 group-open:-rotate-45'
+              />
+            </summary>
 
-        {/* Mobile Menu */}
-        <div
-          className={cn(
-            'md:hidden transition-all duration-300 overflow-hidden',
-            isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
-          )}
-        >
-          <nav className='py-4 border-t border-foreground/10 bg-background'>
-            {portfolioData.navigation.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className='block py-2 text-sm font-medium transition-colors hover:text-foreground/80'
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className='flex flex-col space-y-2 mt-4'>
-              {/* <Button */}
-              {/*   variant='outline' */}
-              {/*   size='sm' */}
-              {/*   onClick={() => { */}
-              {/*     window.open(portfolioData.hero.resumeUrl, '_blank'); */}
-              {/*     setIsMenuOpen(false); */}
-              {/*   }} */}
-              {/* > */}
-              {/*   Resume */}
-              {/* </Button> */}
-              <Button
-                size='sm'
-                onClick={() => {
-                  document
-                    .getElementById('contact')
-                    ?.scrollIntoView({ behavior: 'smooth' });
-                  setIsMenuOpen(false);
-                }}
-              >
-                Contact
-              </Button>
+            <div
+              id='mobile-navigation'
+              className='absolute inset-x-0 top-full border-t border-border bg-background shadow-lg'
+            >
+              <Container>
+                <nav aria-label='Mobile navigation' className='py-4'>
+                  <ul className='space-y-1'>
+                    {siteData.navigation.map((item) => (
+                      <li key={item.href}>
+                        <a
+                          href={item.href}
+                          className='flex min-h-11 items-center rounded-md px-3 text-base font-medium text-foreground transition-colors hover:bg-surface-subtle'
+                          onClick={closeMenu}
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <ButtonLink
+                    href='#contact'
+                    className='mt-3 w-full'
+                    onClick={closeMenu}
+                  >
+                    Contact
+                  </ButtonLink>
+                </nav>
+              </Container>
             </div>
-          </nav>
+          </details>
+
+          <noscript className='lg:hidden'>
+            <style>{'#mobile-menu-disclosure { display: none; }'}</style>
+            <nav aria-label='Mobile navigation'>
+              <ul className='flex items-center gap-3 text-xs font-medium text-muted'>
+                {siteData.navigation.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      className='rounded-sm hover:text-foreground'
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </noscript>
         </div>
       </Container>
     </header>

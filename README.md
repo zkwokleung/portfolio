@@ -1,150 +1,117 @@
 # Andrew SZE-TO - Portfolio
 
-A modern, responsive developer portfolio built with Next.js 15, TypeScript, and
-Tailwind CSS 4. This portfolio showcases my journey as a software developer,
-featuring my work in web development, game development, and AI integration.
+The source for [portfolio.andrewszeto.com](https://portfolio.andrewszeto.com), a
+responsive portfolio built with Next.js 15, React 19, TypeScript, and Tailwind
+CSS 4.
 
-## 🚀 Live Demo
+The site presents selected software and medical-education work, detailed case
+studies, experience, education, and contact information. It is statically
+generated and supports system light and dark color schemes.
 
-Visit my portfolio: [WIP]
+## Requirements
 
-## 🛠️ Built With
+- [Bun](https://bun.sh/) using the version declared in `package.json`
+- Node.js 20.9 or newer when deploying to a Node.js runtime
+- Chromium for the Playwright end-to-end suite
 
-- **Next.js 15** - React framework with App Router
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS 4** - Utility-first CSS framework
+Bun is the only supported package manager. Keep `bun.lock` synchronized with
+`package.json`.
 
-## ✨ Features
-
-- **Modern Design** - Clean, professional layout with dark/light mode support
-- **Responsive** - Mobile-first design that works on all devices
-- **Interactive** - Smooth animations and hover effects
-- **SEO Optimized** - Proper meta tags and structured data
-- **Accessible** - WCAG compliant with keyboard navigation support
-- **Fast** - Optimized performance with static generation
-
-## 📁 Project Structure
-
-```
-src/
-├── app/
-│   ├── layout.tsx       # Root layout with font configuration
-│   ├── page.tsx         # Home page component
-│   └── globals.css      # Global styles
-├── components/
-│   ├── ui/              # Reusable UI components
-│   ├── layout/          # Layout components (Header, Footer)
-│   └── sections/        # Page sections (Hero, About, Projects, etc.)
-├── data/
-│   └── portfolio.ts     # Portfolio content data
-└── lib/
-    └── utils.ts         # Utility functions
-```
-
-## 🎯 Sections
-
-- **Hero** - Introduction with animated background
-- **About** - Personal story and approach to development
-- **Skills** - Interactive tech stack with filtering
-- **Projects** - Featured work with live demos
-- **Experience** - Professional timeline
-- **Contact** - Contact form and social links
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm, yarn, or pnpm
-
-### Installation
-
-1. Clone the repository
+## Setup
 
 ```bash
 git clone https://github.com/zkwokleung/portfolio.git
 cd portfolio
+bun ci
+bunx playwright install chromium
 ```
 
-2. Install dependencies
+Create `.env.local` from the safe `.env.example` template when configuring the
+site origin, then start the development server:
 
 ```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
+bun run dev
 ```
 
-3. Run the development server
+Open [http://localhost:3000](http://localhost:3000).
+
+## Environment
+
+`NEXT_PUBLIC_SITE_URL` is the public origin used for canonical links, sitemap
+entries, robots metadata, and social metadata. It must be an absolute HTTP or
+HTTPS origin without credentials, paths, query parameters, or fragments. The
+production value is `https://portfolio.andrewszeto.com`.
+
+`PLAYWRIGHT_BASE_URL` is optional. When it is empty or unset, Playwright starts
+a local Next.js server. Set it to an existing deployment URL to test that
+deployment instead. Playwright does not load `.env.local`, so export this value
+in the shell or CI environment that starts the tests. Set `NEXT_PUBLIC_SITE_URL`
+in the same environment to the canonical origin expected from that deployment.
+Neither variable is secret.
+
+For example:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+PLAYWRIGHT_BASE_URL=https://preview.example.com \
+NEXT_PUBLIC_SITE_URL=https://portfolio.andrewszeto.com \
+bun run test:e2e
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+Do not place credentials or deployment secrets in `.env.example` or commit local
+environment files.
 
-## 📝 Customization
+## Commands
 
-### Content
+- `bun run dev` starts the Turbopack development server.
+- `bun run typecheck` checks TypeScript without emitting files.
+- `bun run lint` runs ESLint with zero warnings allowed.
+- `bun run format` formats maintained source and configuration files.
+- `bun run format:check` verifies formatting without changing files.
+- `bun run build` creates the production build.
+- `bun run start` serves an existing production build.
+- `bun run verify` runs typechecking, linting, formatting checks, and a
+  production build.
+- `bun run test:e2e` runs the Playwright Chromium suite.
+- `bun run test:e2e:ui` opens Playwright's interactive test runner.
+- `bun run test:e2e:report` opens the most recent HTML report.
 
-Edit `src/data/portfolio.ts` to customize:
+On a clean Linux host, install Chromium and its operating-system dependencies
+with `bunx playwright install --with-deps chromium`.
 
-- Personal information
-- Work experience
-- Projects
-- Skills
-- Social links
+For a release-equivalent local check that serves the production build, run:
 
-### Styling
+```bash
+bun ci
+bunx playwright install chromium
+NEXT_PUBLIC_SITE_URL=https://portfolio.andrewszeto.com CI=true bun run verify
+NEXT_PUBLIC_SITE_URL=https://portfolio.andrewszeto.com CI=true bun run test:e2e
+```
 
-- Global styles: `src/app/globals.css`
-- Component styles: Tailwind classes in components
-- Theme: CSS custom properties for colors
+## Project Structure
 
-### Adding Your Resume
+- `src/app` contains App Router pages, case studies, and metadata routes.
+- `src/components` contains layout, section, and reusable UI components.
+- `src/data` contains portfolio content and shared content types.
+- `src/lib` contains URL and class-name utilities.
+- `tests/e2e` contains functional, responsive, metadata, and accessibility
+  tests.
+- `.github/workflows/ci.yml` runs verification and Playwright on pushes and pull
+  requests to `main`.
 
-Place your resume as `public/resume.pdf` (or update the path in `portfolio.ts`)
+## Content Updates
 
-## 🔧 Available Scripts
+- Update personal and navigation content in `src/data/site.ts`.
+- Update skills, experience, and education in `src/data/career.ts`.
+- Update project cards in `src/data/projects.ts`.
+- Update detailed case studies in `src/data/case-studies.ts`.
+- Add project imagery under `public/projects` and provide meaningful alternative
+  text in the corresponding project data.
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+Only publish metrics, awards, project details, and imagery that are approved for
+public release.
 
-## 📦 Deployment
+## Deployment
 
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to [Vercel](https://vercel.com)
-3. Deploy automatically on every push
-
-## 🤝 About Me
-
-I'm Andrew SZE-TO, a passionate software developer from Hong Kong specializing
-in:
-
-- **Web Development** (Next.js, Laravel, React)
-- **Game Development** (Unity, C#, Multiplayer)
-- **AI Integration** (Machine Learning, Educational Tools)
-
-Currently working as a Full-stack Developer at She Communications Limited, where
-I'm leading the architectural overhaul of a beauty product review platform.
-
-## 📫 Contact
-
-- **Email**: klszeto020@gmail.com
-- **GitHub**: [@zkwokleung](https://github.com/zkwokleung)
-- **LinkedIn**:
-  [kwok-leung-sze-to](https://linkedin.com/in/kwok-leung-sze-to-aa735a1a7)
-- **Twitter**: [@zkwokleung](https://twitter.com/zkwokleung)
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+The site is deployed through Vercel. Configure `NEXT_PUBLIC_SITE_URL` in the
+production and preview environments before building. Pull requests run GitHub
+Actions verification and upload the Playwright HTML report for inspection.

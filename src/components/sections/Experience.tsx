@@ -1,163 +1,95 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { portfolioData } from '@/data/portfolio';
-import Container from '@/components/ui/Container';
 import Badge from '@/components/ui/Badge';
-import { cn } from '@/lib/utils';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import { careerData } from '@/data/career';
+import type { Experience as ExperienceRecord } from '@/data/types';
 
 export default function Experience() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 },
-    );
-
-    const element = document.getElementById('experience');
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section id='experience' className='py-20'>
+    <section
+      id='experience'
+      aria-labelledby='experience-heading'
+      className='scroll-mt-20 bg-surface py-24 sm:py-32'
+    >
       <Container>
-        <div className='max-w-4xl mx-auto'>
-          {/* Section Header */}
-          <div
-            className={cn(
-              'text-center mb-16 transition-all duration-1000',
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8',
-            )}
-          >
-            <h2 className='text-3xl md:text-4xl font-bold mb-4'>Experience</h2>
-            <p className='text-foreground/70 text-lg max-w-2xl mx-auto'>
-              My professional journey and the experiences that have shaped my
-              career
-            </p>
-          </div>
+        <SectionHeading
+          headingId='experience-heading'
+          title='Experience'
+          description='The roles, teams, and technical challenges that have shaped how I build and deliver software.'
+        />
 
-          {/* Timeline */}
-          <div className='relative'>
-            {/* Timeline Line */}
-            <div className='absolute left-8 top-0 bottom-0 w-0.5 bg-foreground/20 hidden md:block'></div>
-
-            {/* Experience Items */}
-            <div className='space-y-12'>
-              {portfolioData.experience.map((exp, index) => (
-                <ExperienceItem
-                  key={exp.id}
-                  experience={exp}
-                  index={index}
-                  isVisible={isVisible}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        <ol className='relative mx-auto mt-14 max-w-5xl space-y-8 border-l border-border pl-6 sm:pl-10'>
+          {careerData.experience.map((experience) => (
+            <li key={experience.id} className='relative'>
+              <span
+                aria-hidden='true'
+                className='absolute -left-[1.94rem] top-7 size-3 rounded-full border-2 border-surface bg-accent shadow-sm sm:-left-[2.94rem]'
+              />
+              <ExperienceItem experience={experience} />
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );
 }
 
-interface ExperienceItemProps {
-  experience: {
-    id: string;
-    company: string;
-    position: string;
-    duration: string;
-    location: string;
-    description: string;
-    achievements: string[];
-    technologies: string[];
-  };
-  index: number;
-  isVisible: boolean;
-}
-
-function ExperienceItem({ experience, index, isVisible }: ExperienceItemProps) {
+function ExperienceItem({ experience }: { experience: ExperienceRecord }) {
   return (
-    <div
-      className={cn(
-        'relative transition-all duration-1000',
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-      )}
-      style={{
-        transitionDelay: `${index * 200}ms`,
-      }}
-    >
-      {/* Timeline Dot */}
-      <div className='absolute left-6 w-4 h-4 bg-foreground rounded-full border-4 border-background shadow-lg hidden md:block'></div>
-
-      {/* Content */}
-      <div className='md:ml-20'>
-        <div className='bg-background border border-foreground/10 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300'>
-          {/* Header */}
-          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4'>
-            <div>
-              <h3 className='text-xl font-bold text-foreground'>
-                {experience.position}
-              </h3>
-              <div className='flex flex-col sm:flex-row sm:items-center gap-2 text-foreground/70'>
-                <span className='font-medium'>{experience.company}</span>
-                <span className='hidden sm:block'>•</span>
-                <span>{experience.location}</span>
-              </div>
-            </div>
-            <div className='flex flex-col items-start sm:items-end mt-2 sm:mt-0'>
-              <span className='text-sm font-medium text-foreground/80'>
-                {experience.duration}
-              </span>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className='text-foreground/80 mb-4 leading-relaxed'>
-            {experience.description}
+    <article className='rounded-2xl border border-border bg-surface-subtle p-6 shadow-sm sm:p-8'>
+      <header className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
+        <div>
+          <h3 className='text-xl font-bold tracking-tight text-foreground sm:text-2xl'>
+            {experience.position}
+          </h3>
+          <p className='mt-1 font-medium text-foreground'>
+            {experience.company}
           </p>
+          <p className='mt-1 text-sm text-muted'>{experience.location}</p>
+        </div>
+        <p className='shrink-0 text-sm font-semibold text-muted'>
+          {experience.duration}
+        </p>
+      </header>
 
-          {/* Achievements */}
-          <div className='mb-6'>
-            <h4 className='font-medium text-foreground mb-3'>
-              Key Achievements
-            </h4>
-            <ul className='space-y-2'>
-              {experience.achievements.map((achievement, achievementIndex) => (
-                <li key={achievementIndex} className='flex items-start'>
-                  <div className='w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0'></div>
-                  <span className='text-foreground/80 text-sm'>
-                    {achievement}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <p className='mt-5 max-w-4xl leading-7 text-muted'>
+        {experience.description}
+      </p>
 
-          {/* Technologies */}
-          <div>
-            <h4 className='font-medium text-foreground mb-3'>
-              Technologies Used
-            </h4>
-            <div className='flex flex-wrap gap-2'>
-              {experience.technologies.map((tech, techIndex) => (
-                <Badge key={techIndex} variant='secondary' className='text-xs'>
-                  {tech}
-                </Badge>
-              ))}
-            </div>
-          </div>
+      <div className='mt-7 grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(16rem,0.7fr)]'>
+        <div>
+          <h4 className='text-sm font-semibold text-foreground'>
+            Key achievements
+          </h4>
+          <ul className='mt-3 space-y-2.5'>
+            {experience.achievements.map((achievement) => (
+              <li
+                key={achievement}
+                className='flex gap-3 text-sm leading-6 text-muted'
+              >
+                <span
+                  aria-hidden='true'
+                  className='mt-2 size-1.5 shrink-0 rounded-full bg-accent'
+                />
+                <span>{achievement}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className='text-sm font-semibold text-foreground'>
+            Technologies
+          </h4>
+          <ul className='mt-3 flex flex-wrap gap-2'>
+            {experience.technologies.map((technology) => (
+              <li key={technology}>
+                <Badge variant='skill'>{technology}</Badge>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

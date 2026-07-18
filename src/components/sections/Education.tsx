@@ -1,187 +1,107 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { portfolioData } from '@/data/portfolio';
-import Container from '@/components/ui/Container';
 import Badge from '@/components/ui/Badge';
-import { cn } from '@/lib/utils';
+import Container from '@/components/ui/Container';
+import SectionHeading from '@/components/ui/SectionHeading';
+import { careerData } from '@/data/career';
+import type { Education as EducationRecord } from '@/data/types';
 
 export default function Education() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 },
-    );
-
-    const element = document.getElementById('education');
-    if (element) {
-      observer.observe(element);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section id='education' className='py-20'>
+    <section
+      id='education'
+      aria-labelledby='education-heading'
+      className='scroll-mt-20 bg-surface-subtle py-24 sm:py-32'
+    >
       <Container>
-        <div className='max-w-4xl mx-auto'>
-          {/* Section Header */}
-          <div
-            className={cn(
-              'text-center mb-16 transition-all duration-1000',
-              isVisible
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-8',
-            )}
-          >
-            <h2 className='text-3xl md:text-4xl font-bold mb-4'>Education</h2>
-            <p className='text-foreground/70 text-lg max-w-2xl mx-auto'>
-              My academic journey and the educational experiences that have
-              shaped my expertise
-            </p>
-          </div>
+        <SectionHeading
+          headingId='education-heading'
+          title='Education'
+          description='Engineering and game-development programs that established the technical foundations behind my professional work.'
+        />
 
-          {/* Timeline */}
-          <div className='relative'>
-            {/* Timeline Line */}
-            <div className='absolute left-8 top-0 bottom-0 w-0.5 bg-foreground/20 hidden md:block'></div>
-
-            {/* Education Items */}
-            <div className='space-y-12'>
-              {portfolioData.education.map((edu, index) => (
-                <EducationItem
-                  key={edu.id}
-                  education={edu}
-                  index={index}
-                  isVisible={isVisible}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        <ol className='relative mx-auto mt-14 max-w-5xl space-y-8 border-l border-border pl-6 sm:pl-10'>
+          {careerData.education.map((education) => (
+            <li key={education.id} className='relative'>
+              <span
+                aria-hidden='true'
+                className='absolute -left-[1.94rem] top-7 size-3 rounded-full border-2 border-surface-subtle bg-accent shadow-sm sm:-left-[2.94rem]'
+              />
+              <EducationItem education={education} />
+            </li>
+          ))}
+        </ol>
       </Container>
     </section>
   );
 }
 
-interface EducationItemProps {
-  education: {
-    id: string;
-    institution: string;
-    degree: string;
-    duration: string;
-    location: string;
-    description: string;
-    achievements: string[];
-    coursework: string[];
-    projects: string[];
-    gpa: string;
-  };
-  index: number;
-  isVisible: boolean;
-}
-
-function EducationItem({ education, index, isVisible }: EducationItemProps) {
+function EducationItem({ education }: { education: EducationRecord }) {
   return (
-    <div
-      className={cn(
-        'relative transition-all duration-1000',
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-      )}
-      style={{
-        transitionDelay: `${index * 200}ms`,
-      }}
-    >
-      {/* Timeline Dot */}
-      <div className='absolute left-6 w-4 h-4 bg-foreground rounded-full border-4 border-background shadow-lg hidden md:block'></div>
-
-      {/* Content */}
-      <div className='md:ml-20'>
-        <div className='bg-background border border-foreground/10 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300'>
-          {/* Header */}
-          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4'>
-            <div>
-              <h3 className='text-xl font-bold text-foreground'>
-                {education.degree}
-              </h3>
-              <div className='flex flex-col sm:flex-row sm:items-center gap-2 text-foreground/70'>
-                <span className='font-medium'>{education.institution}</span>
-                <span className='hidden sm:block'>•</span>
-                <span>{education.location}</span>
-              </div>
-            </div>
-            <div className='flex flex-col items-start sm:items-end mt-2 sm:mt-0'>
-              <span className='text-sm font-medium text-foreground/80'>
-                {education.duration}
-              </span>
-              <span className='text-sm text-foreground/60'>
-                GPA: {education.gpa}
-              </span>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className='text-foreground/80 mb-4 leading-relaxed'>
-            {education.description}
+    <article className='rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-8'>
+      <header className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
+        <div>
+          <h3 className='text-xl font-bold tracking-tight text-foreground sm:text-2xl'>
+            {education.degree}
+          </h3>
+          <p className='mt-1 font-medium text-foreground'>
+            {education.institution}
           </p>
+          <p className='mt-1 text-sm text-muted'>{education.location}</p>
+        </div>
+        <div className='shrink-0 sm:text-right'>
+          <p className='text-sm font-semibold text-muted'>
+            {education.duration}
+          </p>
+          <Badge variant='outline' className='mt-2'>
+            GPA {education.gpa}
+          </Badge>
+        </div>
+      </header>
 
-          {/* Achievements */}
-          <div className='mb-6'>
-            <h4 className='font-medium text-foreground mb-3'>
-              Key Achievements
-            </h4>
-            <ul className='space-y-2'>
-              {education.achievements.map((achievement, achievementIndex) => (
-                <li key={achievementIndex} className='flex items-start'>
-                  <div className='w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0'></div>
-                  <span className='text-foreground/80 text-sm'>
-                    {achievement}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <p className='mt-5 max-w-4xl leading-7 text-muted'>
+        {education.description}
+      </p>
 
-          {/* Projects */}
-          <div className='mb-6'>
-            <h4 className='font-medium text-foreground mb-3'>
-              Relevant Projects
-            </h4>
-            <ul className='space-y-2'>
-              {education.projects.map((project, projectIndex) => (
-                <li key={projectIndex} className='flex items-start'>
-                  <div className='w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0'></div>
-                  <span className='text-foreground/80 text-sm'>{project}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Coursework */}
-          <div>
-            <h4 className='font-medium text-foreground mb-3'>
-              Relevant Coursework
-            </h4>
-            <div className='flex flex-wrap gap-2'>
-              {education.coursework.map((course, courseIndex) => (
-                <Badge
-                  key={courseIndex}
-                  variant='secondary'
-                  className='text-xs'
-                >
-                  {course}
-                </Badge>
-              ))}
-            </div>
-          </div>
+      <div className='mt-7 grid gap-8 lg:grid-cols-2'>
+        <div>
+          <h4 className='text-sm font-semibold text-foreground'>
+            Key achievements
+          </h4>
+          <DetailList items={education.achievements} />
+        </div>
+        <div>
+          <h4 className='text-sm font-semibold text-foreground'>
+            Relevant projects
+          </h4>
+          <DetailList items={education.projects} />
         </div>
       </div>
-    </div>
+
+      <div className='mt-8 border-t border-border pt-6'>
+        <h4 className='text-sm font-semibold text-foreground'>Coursework</h4>
+        <ul className='mt-3 flex flex-wrap gap-2'>
+          {education.coursework.map((course) => (
+            <li key={course}>
+              <Badge variant='skill'>{course}</Badge>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  );
+}
+
+function DetailList({ items }: { items: string[] }) {
+  return (
+    <ul className='mt-3 space-y-2.5'>
+      {items.map((item) => (
+        <li key={item} className='flex gap-3 text-sm leading-6 text-muted'>
+          <span
+            aria-hidden='true'
+            className='mt-2 size-1.5 shrink-0 rounded-full bg-accent'
+          />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
   );
 }

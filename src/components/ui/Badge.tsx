@@ -1,18 +1,19 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+
+type BadgeVariant = 'default' | 'secondary' | 'outline' | 'skill';
 
 interface BadgeProps {
   children: ReactNode;
-  variant?: 'default' | 'secondary' | 'outline' | 'skill';
+  variant?: BadgeVariant;
   className?: string;
 }
 
 const badgeVariants = {
-  default: 'bg-foreground text-background',
-  secondary: 'bg-foreground/10 text-foreground',
-  outline: 'border border-foreground/20 text-foreground',
-  skill:
-    'bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-foreground border border-blue-500/20',
+  default: 'bg-accent text-accent-contrast',
+  secondary: 'bg-surface-subtle text-foreground',
+  outline: 'border border-border bg-surface text-foreground',
+  skill: 'border border-accent/20 bg-accent/10 text-foreground',
 };
 
 export default function Badge({
@@ -23,7 +24,7 @@ export default function Badge({
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-all duration-200',
+        'inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium leading-none',
         badgeVariants[variant],
         className,
       )}

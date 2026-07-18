@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import type { Project, ProjectCategory } from '@/data/portfolio';
+import Badge from '@/components/ui/Badge';
+import { ButtonLink } from '@/components/ui/Button';
 import Card, {
   CardContent,
   CardDescription,
@@ -7,8 +8,7 @@ import Card, {
   CardHeader,
   CardTitle,
 } from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
-import { ButtonLink } from '@/components/ui/Button';
+import type { Project, ProjectCategory } from '@/data/types';
 import { cn } from '@/lib/utils';
 
 const categoryLabels: Record<ProjectCategory, string> = {
@@ -30,75 +30,95 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     .slice(0, 3);
 
   return (
-    <Card className='group flex h-full flex-col overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5'>
-      <div className='relative aspect-video overflow-hidden border-b border-foreground/10 bg-gradient-to-br from-blue-500/10 to-purple-500/10'>
-        {project.image ? (
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            fill
-            sizes='(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
-            className={cn(
-              'transition-transform duration-500 group-hover:scale-[1.02]',
-              project.image.fit === 'cover' ? 'object-cover' : 'object-contain',
-            )}
-          />
-        ) : (
-          <div className='flex h-full items-center justify-center text-4xl font-bold text-foreground/30'>
-            {initials}
-          </div>
-        )}
-      </div>
-
-      <CardHeader className='mb-0 p-6 pb-4'>
-        <div className='mb-3 flex flex-wrap items-center gap-2'>
-          <Badge variant='secondary'>{categoryLabels[project.category]}</Badge>
-          {project.featured && <Badge variant='outline'>Recent</Badge>}
-        </div>
-        <CardTitle>{project.title}</CardTitle>
-        <CardDescription className='mt-2 leading-relaxed'>
-          {project.description}
-        </CardDescription>
-        <div className='mt-4 border-l-2 border-blue-500/40 pl-3'>
-          <p className='mb-1 text-[0.6875rem] font-semibold uppercase tracking-wider text-foreground/60'>
-            My contribution
-          </p>
-          <p className='text-sm leading-relaxed text-foreground/80'>
-            {project.contribution}
-          </p>
-        </div>
-      </CardHeader>
-
-      <CardContent className='flex-1 px-6 pb-6'>
-        <div className='flex flex-wrap gap-2'>
-          {project.technologies.map((technology) => (
-            <Badge key={technology} variant='skill'>
-              {technology}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-
-      {project.links.length > 0 && (
-        <CardFooter className='mx-6 mb-6 mt-auto flex flex-wrap gap-2'>
-          {project.links.map((link) => (
-            <ButtonLink
-              key={link.url}
-              href={link.url}
-              target='_blank'
-              rel='noopener noreferrer'
-              aria-label={`${project.title}: ${link.label}`}
-              variant='outline'
-              size='sm'
-              className='min-w-fit flex-1'
+    <article id={`project-${project.id}`} className='h-full scroll-mt-24'>
+      <Card className='group flex h-full flex-col overflow-hidden p-0 transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-accent/30 hover:shadow-lg'>
+        <div className='relative aspect-video overflow-hidden border-b border-border bg-accent/10'>
+          {project.image ? (
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              fill
+              sizes='(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw'
+              className={cn(
+                'transition-transform duration-500 group-hover:scale-[1.02]',
+                project.image.fit === 'cover'
+                  ? 'object-cover'
+                  : 'object-contain',
+              )}
+            />
+          ) : (
+            <div
+              aria-hidden='true'
+              className='flex h-full items-center justify-center text-4xl font-bold text-muted'
             >
-              {link.kind === 'github' ? <GitHubIcon /> : <ExternalLinkIcon />}
-              {link.label}
-            </ButtonLink>
-          ))}
-        </CardFooter>
-      )}
-    </Card>
+              {initials}
+            </div>
+          )}
+        </div>
+
+        <CardHeader className='mb-0 p-6 pb-4'>
+          <div className='mb-3 flex flex-wrap items-center gap-2'>
+            <Badge variant='secondary'>
+              {categoryLabels[project.category]}
+            </Badge>
+            {project.featured && <Badge variant='outline'>Featured</Badge>}
+          </div>
+          <CardTitle className='tracking-tight text-foreground'>
+            {project.title}
+          </CardTitle>
+          <CardDescription className='mt-2 leading-relaxed'>
+            {project.description}
+          </CardDescription>
+          <div className='mt-4 border-l-2 border-accent/50 pl-3'>
+            <p className='mb-1 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-muted'>
+              My contribution
+            </p>
+            <p className='text-sm leading-relaxed text-foreground'>
+              {project.contribution}
+            </p>
+          </div>
+        </CardHeader>
+
+        <CardContent className='flex-1 px-6 pb-6'>
+          <ul className='flex flex-wrap gap-2' aria-label='Technologies used'>
+            {project.technologies.map((technology) => (
+              <li key={technology}>
+                <Badge variant='skill'>{technology}</Badge>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+
+        {(project.caseStudySlug || project.links.length > 0) && (
+          <CardFooter className='mx-6 mb-6 mt-auto flex flex-wrap gap-2'>
+            {project.caseStudySlug && (
+              <ButtonLink
+                href={`/case-studies/${project.caseStudySlug}`}
+                size='sm'
+                className='min-w-fit flex-1'
+              >
+                Read Case Study
+              </ButtonLink>
+            )}
+            {project.links.map((link) => (
+              <ButtonLink
+                key={link.url}
+                href={link.url}
+                target='_blank'
+                rel='noopener noreferrer'
+                aria-label={`${project.title}: ${link.label} (opens in a new tab)`}
+                variant='outline'
+                size='sm'
+                className='min-w-fit flex-1'
+              >
+                {link.kind === 'github' ? <GitHubIcon /> : <ExternalLinkIcon />}
+                {link.label}
+              </ButtonLink>
+            ))}
+          </CardFooter>
+        )}
+      </Card>
+    </article>
   );
 }
 
@@ -106,7 +126,7 @@ function ExternalLinkIcon() {
   return (
     <svg
       aria-hidden='true'
-      className='mr-2 h-4 w-4'
+      className='size-4'
       fill='none'
       stroke='currentColor'
       viewBox='0 0 24 24'
@@ -125,7 +145,7 @@ function GitHubIcon() {
   return (
     <svg
       aria-hidden='true'
-      className='mr-2 h-4 w-4'
+      className='size-4'
       fill='currentColor'
       viewBox='0 0 24 24'
     >

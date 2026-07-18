@@ -1,70 +1,103 @@
 @import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #fafaf8;
+  --foreground: #171716;
+  --surface: #ffffff;
+  --surface-subtle: #f2f2ee;
+  --muted: #63635e;
+  --border: #d9d9d3;
+  --accent: #4f46e5;
+  --accent-strong: #3730a3;
+  --accent-contrast: #ffffff;
+  --focus: #2563eb;
+  --scrollbar: #9a9a93;
+  --card-shadow: 0 1px 2px rgb(23 23 22 / 6%), 0 8px 24px rgb(23 23 22 / 4%);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-focus: var(--focus);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --radius-card: 0.875rem;
+  --shadow-card: var(--card-shadow);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+    --background: #0e0e0d;
+    --foreground: #f4f4ef;
+    --surface: #171716;
+    --surface-subtle: #20201e;
+    --muted: #aaa9a2;
+    --border: #393936;
+    --accent: #8b87ff;
+    --accent-strong: #aaa7ff;
+    --accent-contrast: #11110f;
+    --focus: #a7c7ff;
+    --scrollbar: #62625c;
+    --card-shadow: 0 1px 2px rgb(0 0 0 / 24%), 0 12px 32px rgb(0 0 0 / 16%);
   }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  scrollbar-color: var(--scrollbar) transparent;
+  scrollbar-width: thin;
 }
 
 body {
+  min-height: 100svh;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
-/* Smooth scrolling for anchor links */
-html {
-  scroll-behavior: smooth;
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
-/* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--foreground);
-  opacity: 0.3;
-  border-radius: 4px;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: var(--scrollbar);
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  opacity: 0.5;
+  background: var(--accent);
+  background-clip: content-box;
 }
 
-/* Focus styles for accessibility */
 :focus-visible {
-  outline: 2px solid var(--foreground);
-  outline-offset: 2px;
-}
-
-/* Animation keyframes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
 }
 
 @keyframes pulse {
@@ -86,11 +119,6 @@ html {
   }
 }
 
-/* Utility classes */
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
-
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
@@ -99,14 +127,19 @@ html {
   animation: spin-slow 20s linear infinite;
 }
 
-/* Dark mode improvements */
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-thumb {
-    background: var(--foreground);
-    opacity: 0.4;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    opacity: 0.6;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
