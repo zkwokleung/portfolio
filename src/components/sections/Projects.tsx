@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import ProjectCard from '@/components/sections/ProjectCard';
 import Button, { ButtonLink } from '@/components/ui/Button';
 import Container from '@/components/ui/Container';
@@ -26,14 +26,28 @@ function matchesFilter(category: ProjectCategory, filter: ProjectFilter) {
   return category === filter;
 }
 
+function subscribeToHydration() {
+  return () => {};
+}
+
+function getClientSnapshot() {
+  return true;
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
 export default function Projects() {
-  const [isHydrated, setIsHydrated] = useState(false);
+  const isHydrated = useSyncExternalStore(
+    subscribeToHydration,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
   const [filter, setFilter] = useState<ProjectFilter>('all');
   const filteredProjects = projects.filter((project) =>
     matchesFilter(project.category, filter),
   );
-
-  useEffect(() => setIsHydrated(true), []);
 
   return (
     <section
